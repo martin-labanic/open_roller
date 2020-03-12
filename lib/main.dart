@@ -204,6 +204,7 @@ class _OpenRollerStateState extends State<OpenRollerState> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container (
+                  constraints: BoxConstraints(maxWidth: 150),
                   padding: EdgeInsets.only(right: 8.0),
 //                decoration: BoxDecoration(
 //                    color: Colors.teal,
@@ -214,7 +215,7 @@ class _OpenRollerStateState extends State<OpenRollerState> {
                     textAlign: TextAlign.start,
                   ),
                 ),
-              _buildRollDetails(roll)
+                 _buildRollDetails(roll)
             ]
           )
       )
