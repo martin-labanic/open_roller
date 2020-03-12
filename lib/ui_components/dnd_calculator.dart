@@ -69,6 +69,13 @@ class _DndCalculatorState extends State<DndCalculator> {
   DndCalculator _dndCalculator;
   _DndCalculatorState(this._dndCalculator);
 
+  /// Overridden to get an initial call off to the ui state.
+  @override
+  void initState() {
+    super.initState();
+    updateUi();
+  }
+
   /// Update the dice display UI elements
   void updateUi() {
     setState(() {
@@ -108,7 +115,6 @@ class _DndCalculatorState extends State<DndCalculator> {
 
   Widget build(BuildContext context) {
     return Column(
-
       children: <Widget>[
         Expanded(
           flex: 1,
