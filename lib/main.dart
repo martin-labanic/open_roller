@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:dice_tower/dice_tower.dart";
-import 'package:open_roller/settings.dart';
-import 'package:open_roller/ui_components/dnd_calculator.dart';
+import "package:open_roller/settings.dart";
+import "package:open_roller/ui_components/dnd_calculator.dart";
 //import "package:material_design_icons_flutter/material_design_icons_flutter.dart";
 
 /*
