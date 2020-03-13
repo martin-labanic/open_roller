@@ -5,32 +5,6 @@ import "package:open_roller/ui_components/dnd_calculator.dart";
 import "package:firebase_crashlytics/firebase_crashlytics.dart";
 //import "package:material_design_icons_flutter/material_design_icons_flutter.dart";
 
-/*
-Mayor William Duffy - initial contact
-Bar man - Rustin McBoots
-
-simple mode:
-just tap to do the roll
-
-combo mode:
-combine dice rolls
-1
-tap the dice label as a reroll
-
-
-https://play.google.com/store/apps/details?id=com.ccp.rpgsimpledice
-https://play.google.com/store/apps/details?id=com.vuesoft.critdice
-https://play.google.com/store/apps/details?id=com.fialasfiasco.customdiceroller
-https://play.google.com/store/apps/details?id=com.avocadodev.diceroller
-https://play.google.com/store/apps/details?id=com.AlexHicks.Dice
-https://play.google.com/store/apps/details?id=com.visttux.empireedgediceroller
-
-free flow calculator mode
-https://play.google.com/store/apps/details?id=nl.remcoder.polyhedral_dice_calculator
-
-this but sliders
-https://play.google.com/store/apps/details?id=com.randomappsinc.randomnumbergeneratorplus
-*/
 void main() {
   FlutterError.onError = Crashlytics.instance.recordFlutterError;
   runApp(MyApp());
