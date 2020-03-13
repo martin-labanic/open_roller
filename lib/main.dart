@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:dice_tower/dice_tower.dart";
 import "package:open_roller/settings.dart";
 import "package:open_roller/ui_components/dnd_calculator.dart";
+import "package:firebase_crashlytics/firebase_crashlytics.dart";
 //import "package:material_design_icons_flutter/material_design_icons_flutter.dart";
 
 /*
@@ -30,7 +31,10 @@ https://play.google.com/store/apps/details?id=nl.remcoder.polyhedral_dice_calcul
 this but sliders
 https://play.google.com/store/apps/details?id=com.randomappsinc.randomnumbergeneratorplus
 */
-void main() => runApp(MyApp());
+void main() {
+  FlutterError.onError = Crashlytics.instance.recordFlutterError;
+  runApp(MyApp());
+}
 
 enum UiOrientation {Left, Top, Right, Bottom}
 

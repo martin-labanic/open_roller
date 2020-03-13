@@ -214,7 +214,7 @@ class _DndCalculatorState extends State<DndCalculator> {
                 flex: 4,
                 child: Padding(
                   padding: const EdgeInsets.all(0.0),
-                  child: GridButton( // TODO Use chips; let them remove dice in any order. The minus sign will remove only the last one entered. https://api.flutter.dev/flutter/material/Chip-class.html
+                  child: GridButton(
                     textStyle: normalStyle,
                     borderColor: Colors.transparent,
 //        borderWidth: 2,
@@ -251,7 +251,16 @@ class _DndCalculatorState extends State<DndCalculator> {
                         GridButtonItem(title: "D4", value: 4),
                         GridButtonItem(title: "D6", value: 6),
                         GridButtonItem(title: "D8", value: 8),
-                        GridButtonItem(title: "-", value: "-", color: Colors.grey[300], textStyle: calcIconStyle),
+//                        IconButton(
+//                          icon: Icon(Icons.volume_up),
+//                          tooltip: 'Increase volume by 10',
+//                          onPressed: () {
+//                            setState(() {
+//                              _volume += 10;
+//                            });
+//                          },
+//                        )
+                        GridButtonItem(title: "<", value: "-", color: Colors.grey[300], textStyle: calcIconStyle),
                       ],
                       [
                         GridButtonItem(title: "D10", value: 10),
