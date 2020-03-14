@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:dice_tower/dice_tower.dart";
+import "package:flutter/services.dart";
 import "package:open_roller/settings.dart";
 import "package:open_roller/ui_components/dnd_calculator.dart";
 import "package:firebase_crashlytics/firebase_crashlytics.dart";
@@ -66,6 +67,8 @@ class _OpenRollerStateState extends State<OpenRollerState> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIOverlays ([SystemUiOverlay.bottom]); // Disable the status bar.
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -73,24 +76,24 @@ class _OpenRollerStateState extends State<OpenRollerState> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-//        title: Text(widget.title),
-      
-//        backgroundColor: Color.fromARGB(0, 1, 1, 1),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SettingsRoute()),
-              );
-            },
-          ),
-        ],
-      ),
+//      appBar: AppBar(
+//        // Here we take the value from the MyHomePage object that was created by
+//        // the App.build method, and use it to set our appbar title.
+////        title: Text(widget.title),
+//
+////        backgroundColor: Color.fromARGB(0, 1, 1, 1),
+//        actions: <Widget>[
+//          IconButton(
+//            icon: Icon(Icons.settings),
+//            onPressed: () {
+//              Navigator.push(
+//                context,
+//                MaterialPageRoute(builder: (context) => SettingsRoute()),
+//              );
+//            },
+//          ),
+//        ],
+//      ),
       body: OrientationBuilder (
           builder: (context, orientation) {
             return _buildBody(orientation);
