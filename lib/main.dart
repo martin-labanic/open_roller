@@ -76,12 +76,11 @@ class _OpenRollerStateState extends State<OpenRollerState> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-//      appBar: AppBar(
+//      appBar: AppBar( // TODO Keep this or remove it once you implement user preferences.
 //        // Here we take the value from the MyHomePage object that was created by
 //        // the App.build method, and use it to set our appbar title.
 ////        title: Text(widget.title),
 //
-////        backgroundColor: Color.fromARGB(0, 1, 1, 1),
 //        actions: <Widget>[
 //          IconButton(
 //            icon: Icon(Icons.settings),

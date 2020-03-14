@@ -228,7 +228,7 @@ class _DndCalculatorState extends State<DndCalculator> {
                         } else if (val == "-") { // If they tap `-` then remove the current dice value or the last di.
                           if (_currentNumberOfSides != null) {
                             _currentNumberOfSides = null;
-                          } else {
+                          } else if (_diceToRoll.isNotEmpty) {
                             _diceToRoll.removeLast();
                           }
                         } else if (val == "=") { // If they tap roll then add the current selection and
