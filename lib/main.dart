@@ -122,15 +122,15 @@ class _OpenRollerStateState extends State<OpenRollerState> {
       return Container (
       child: Row(
         children: <Widget>[
-              Expanded(
-                flex: 5,
-                child: _buildUi(),
-              ),
-              Expanded(
-                flex: 5,
-                child: _buildHistory(),
-              ),
-            ],
+          Expanded(
+            flex: 5,
+            child: _buildHistory(),
+          ),
+          Expanded(
+            flex: 5,
+            child: _buildUi(),
+          ),
+        ],
         )
       );
     }
