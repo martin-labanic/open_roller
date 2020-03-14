@@ -138,27 +138,6 @@ class _OpenRollerStateState extends State<OpenRollerState> {
       _updateHistory(roll);
     });
   }
-//  Widget _buildUi() { // ZZZZZ The slider test.
-//    return Column(
-//      mainAxisSize: MainAxisSize.max,
-//      mainAxisAlignment: MainAxisAlignment.spaceAround,
-//      crossAxisAlignment: CrossAxisAlignment.center,
-//      children: <Widget>[
-//        Slider(
-//          min: 1,
-//          max: 10,
-//          value: _numberOfDice,
-//          label: _numberOfDice.toInt().toString(),
-//
-//          divisions: 9,
-//            onChanged: (double v){_updateNumberOfDice(v);},
-////            onChangeEnd: (double v){ numberOfDice = v;},
-////          onPressed: (){_rollDice(numberOfDice, 4, modifier);},
-////          child: Text("D4"),
-//        ),
-//      ],
-//    );
-//  }
 
   Widget _buildHistory() {
     return ListView.builder(

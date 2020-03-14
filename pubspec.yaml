@@ -1,7 +1,7 @@
 name: open_roller
 description: Open source dice rolling app.
 
-version: 0.6.0
+version: 0.6.1
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -10,7 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
   dice_tower: 0.5.3
-  provider:
+  flutter_launcher_icons: 0.7.4
+#  provider:
 #  numberpicker: 1.1.0
   auto_size_text: 2.1.0
 #  flutter_material_color_picker: 1.0.5
@@ -30,10 +31,16 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+flutter_icons:
+  ios: true
+  android: true
+  image_path_ios: "assets/launcher/icon.png"
+  image_path_android: "assets/launcher/icon.png"
+  adaptive_icon_background: "assets/launcher/background.png"
+  adaptive_icon_foreground: "assets/launcher/foreground.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
 # The following section is specific to Flutter.
 flutter:
 
