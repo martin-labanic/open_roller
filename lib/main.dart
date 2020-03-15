@@ -13,8 +13,8 @@ void main() {
 
 enum UiOrientation {Left, Top, Right, Bottom}
 
-const double HISTORY_FONT_SIZE_DEFAULT = 12;
-const double HISTORY_FONT_SIZE_FIRST_ROW = 24;
+const double HISTORY_FONT_SIZE_DEFAULT = 14;
+const double HISTORY_FONT_SIZE_FIRST_ROW = 30;
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
