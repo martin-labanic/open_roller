@@ -1,38 +1,20 @@
 import "package:flutter/material.dart";
 import "package:dice_tower/dice_tower.dart";
-import 'package:open_roller/settings.dart';
-import 'package:open_roller/ui_components/dnd_calculator.dart';
+import "package:flutter/services.dart";
+import "package:open_roller/settings.dart";
+import "package:open_roller/ui_components/dnd_calculator.dart";
+import "package:firebase_crashlytics/firebase_crashlytics.dart";
 //import "package:material_design_icons_flutter/material_design_icons_flutter.dart";
 
-/*
-Mayor William Duffy - initial contact
-Bar man - Rustin McBoots
-
-simple mode:
-just tap to do the roll
-
-combo mode:
-combine dice rolls
-1
-tap the dice label as a reroll
-
-
-https://play.google.com/store/apps/details?id=com.ccp.rpgsimpledice
-https://play.google.com/store/apps/details?id=com.vuesoft.critdice
-https://play.google.com/store/apps/details?id=com.fialasfiasco.customdiceroller
-https://play.google.com/store/apps/details?id=com.avocadodev.diceroller
-https://play.google.com/store/apps/details?id=com.AlexHicks.Dice
-https://play.google.com/store/apps/details?id=com.visttux.empireedgediceroller
-
-free flow calculator mode
-https://play.google.com/store/apps/details?id=nl.remcoder.polyhedral_dice_calculator
-
-this but sliders
-https://play.google.com/store/apps/details?id=com.randomappsinc.randomnumbergeneratorplus
-*/
-void main() => runApp(MyApp());
+void main() {
+  FlutterError.onError = Crashlytics.instance.recordFlutterError;
+  runApp(MyApp());
+}
 
 enum UiOrientation {Left, Top, Right, Bottom}
+
+const double HISTORY_FONT_SIZE_DEFAULT = 14;
+const double HISTORY_FONT_SIZE_FIRST_ROW = 30;
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -88,6 +70,8 @@ class _OpenRollerStateState extends State<OpenRollerState> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIOverlays ([SystemUiOverlay.bottom]); // Disable the status bar.
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -95,24 +79,23 @@ class _OpenRollerStateState extends State<OpenRollerState> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-//        title: Text(widget.title),
-      
-//        backgroundColor: Color.fromARGB(0, 1, 1, 1),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SettingsRoute()),
-              );
-            },
-          ),
-        ],
-      ),
+//      appBar: AppBar( // TODO Keep this or remove it once you implement user preferences.
+//        // Here we take the value from the MyHomePage object that was created by
+//        // the App.build method, and use it to set our appbar title.
+////        title: Text(widget.title),
+//
+//        actions: <Widget>[
+//          IconButton(
+//            icon: Icon(Icons.settings),
+//            onPressed: () {
+//              Navigator.push(
+//                context,
+//                MaterialPageRoute(builder: (context) => SettingsRoute()),
+//              );
+//            },
+//          ),
+//        ],
+//      ),
       body: OrientationBuilder (
           builder: (context, orientation) {
             return _buildBody(orientation);
@@ -141,15 +124,15 @@ class _OpenRollerStateState extends State<OpenRollerState> {
       return Container (
       child: Row(
         children: <Widget>[
-              Expanded(
-                flex: 5,
-                child: _buildUi(),
-              ),
-              Expanded(
-                flex: 5,
-                child: _buildHistory(),
-              ),
-            ],
+          Expanded(
+            flex: 5,
+            child: _buildHistory(),
+          ),
+          Expanded(
+            flex: 5,
+            child: _buildUi(),
+          ),
+        ],
         )
       );
     }
@@ -160,41 +143,20 @@ class _OpenRollerStateState extends State<OpenRollerState> {
       _updateHistory(roll);
     });
   }
-//  Widget _buildUi() { // ZZZZZ The slider test.
-//    return Column(
-//      mainAxisSize: MainAxisSize.max,
-//      mainAxisAlignment: MainAxisAlignment.spaceAround,
-//      crossAxisAlignment: CrossAxisAlignment.center,
-//      children: <Widget>[
-//        Slider(
-//          min: 1,
-//          max: 10,
-//          value: _numberOfDice,
-//          label: _numberOfDice.toInt().toString(),
-//
-//          divisions: 9,
-//            onChanged: (double v){_updateNumberOfDice(v);},
-////            onChangeEnd: (double v){ numberOfDice = v;},
-////          onPressed: (){_rollDice(numberOfDice, 4, modifier);},
-////          child: Text("D4"),
-//        ),
-//      ],
-//    );
-//  }
 
   Widget _buildHistory() {
     return ListView.builder(
-//      padding: const EdgeInsets.all(8.0),
+      reverse: true,
       itemCount: _history.length,
       itemBuilder: (context, i) {
-        return _buildRow(_history[i], i%2 != 0);
+        return _buildRow(_history[i], i == 0);
       },
     );
   }
 
-  Widget _buildRow(RollResult roll, odd) {
+  Widget _buildRow(RollResult roll, bool firstRow) {
     return Container(
-        color: odd ? Color.fromARGB(30, 0, 80, 0) : Color.fromARGB(0, 0, 0, 0),
+        color: Color.fromARGB(0, 0, 0, 0),
         child:
           ListTile(
             dense: true,
@@ -204,44 +166,35 @@ class _OpenRollerStateState extends State<OpenRollerState> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container (
+                  constraints: BoxConstraints(maxWidth: 150),
                   padding: EdgeInsets.only(right: 8.0),
-//                decoration: BoxDecoration(
-//                    color: Colors.teal,
-//                    borderRadius: BorderRadius.all(Radius.circular(4.0))
-//                ),
                   child: Text(
                     roll.title,
                     textAlign: TextAlign.start,
+                    style: TextStyle(fontSize: !firstRow ? HISTORY_FONT_SIZE_DEFAULT : HISTORY_FONT_SIZE_FIRST_ROW, color: Colors.lightBlue),
                   ),
                 ),
-              _buildRollDetails(roll)
+                 _buildRollDetails(roll, firstRow)
             ]
           )
       )
     );
   }
 //
-  Widget _buildRollDetails(RollResult roll) {
+  Widget _buildRollDetails(RollResult roll, bool firstRow) {
     Widget result;
     if (roll.rolls.length > 1
         || roll.rolls[0].length > 1
         || (roll.rolls[0].length == 1 && roll.dicePool[0].modifier != 0)) { // Number of dice is already handled, but a non-zero modifier deserves a
       result = Expanded(
-          child:
-          Container(
+          child: Container(
             padding: EdgeInsets.only(left: 8.0),
-            decoration: BoxDecoration(
-              border: Border(left: BorderSide(width: 2.0, color: Colors.teal))
-            ),
             child: RichText(
               text: TextSpan(
-                // Note: Styles for TextSpans must be explicitly defined.
-                // Child text spans will inherit styles from parent
-                style: TextStyle(
-                  color: Colors.black,
-                ),
+                // Note: Styles for TextSpans must be explicitly defined, child text spans will inherit styles from parents
+                style: TextStyle(color: Colors.black, fontSize: !firstRow ? HISTORY_FONT_SIZE_DEFAULT : HISTORY_FONT_SIZE_FIRST_ROW),
                 children: <TextSpan>[
-                  TextSpan(text: "${Dnd5eRuleset.prettyPrintSum(roll)}\n"),
+                  TextSpan(text: "${Dnd5eRuleset.prettyPrintSum(roll)}\n",),
                   TextSpan(text: Dnd5eRuleset.prettyPrintResultDetails(roll), style: TextStyle(color: Colors.black.withOpacity(0.5)),),
                 ],
               ),
@@ -249,17 +202,14 @@ class _OpenRollerStateState extends State<OpenRollerState> {
           ),
       );
     } else {
-
       result = Column(
         children: <Widget>[
           Container(
             padding: EdgeInsets.only(left: 8.0),
-            decoration: BoxDecoration(
-                border: Border(left: BorderSide(width: 2.0, color: Colors.teal))
-            ),
             child: Text(
               Dnd5eRuleset.prettyPrintSum(roll),
               textAlign: TextAlign.start,
+              style: TextStyle(fontSize: !firstRow ? HISTORY_FONT_SIZE_DEFAULT : HISTORY_FONT_SIZE_FIRST_ROW),
             ),
           ),
         ],
