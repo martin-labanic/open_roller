@@ -118,7 +118,7 @@ class _DndCalculatorState extends State<DndCalculator> {
         Expanded(
           flex: 1,
           child: Container(
-            color: Colors.lightGreen,
+            color:  Colors.grey[200],
             constraints: BoxConstraints.expand(),
             alignment: Alignment(1.0, 0.0),
             padding: EdgeInsets.only(left: 4.0, right: 4.0, top: 1.0, bottom: 1.0),

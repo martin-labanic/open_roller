@@ -13,6 +13,9 @@ void main() {
 
 enum UiOrientation {Left, Top, Right, Bottom}
 
+const double HISTORY_FONT_SIZE_DEFAULT = 12;
+const double HISTORY_FONT_SIZE_FIRST_ROW = 24;
+
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -143,17 +146,17 @@ class _OpenRollerStateState extends State<OpenRollerState> {
 
   Widget _buildHistory() {
     return ListView.builder(
-//      padding: const EdgeInsets.all(8.0),
+      reverse: true,
       itemCount: _history.length,
       itemBuilder: (context, i) {
-        return _buildRow(_history[i], i%2 != 0);
+        return _buildRow(_history[i], i == 0);
       },
     );
   }
 
-  Widget _buildRow(RollResult roll, odd) {
+  Widget _buildRow(RollResult roll, bool firstRow) {
     return Container(
-        color: odd ? Color.fromARGB(30, 0, 80, 0) : Color.fromARGB(0, 0, 0, 0),
+        color: Color.fromARGB(0, 0, 0, 0),
         child:
           ListTile(
             dense: true,
@@ -165,43 +168,33 @@ class _OpenRollerStateState extends State<OpenRollerState> {
                 Container (
                   constraints: BoxConstraints(maxWidth: 150),
                   padding: EdgeInsets.only(right: 8.0),
-//                decoration: BoxDecoration(
-//                    color: Colors.teal,
-//                    borderRadius: BorderRadius.all(Radius.circular(4.0))
-//                ),
                   child: Text(
                     roll.title,
                     textAlign: TextAlign.start,
+                    style: TextStyle(fontSize: !firstRow ? HISTORY_FONT_SIZE_DEFAULT : HISTORY_FONT_SIZE_FIRST_ROW, color: Colors.lightBlue),
                   ),
                 ),
-                 _buildRollDetails(roll)
+                 _buildRollDetails(roll, firstRow)
             ]
           )
       )
     );
   }
 //
-  Widget _buildRollDetails(RollResult roll) {
+  Widget _buildRollDetails(RollResult roll, bool firstRow) {
     Widget result;
     if (roll.rolls.length > 1
         || roll.rolls[0].length > 1
         || (roll.rolls[0].length == 1 && roll.dicePool[0].modifier != 0)) { // Number of dice is already handled, but a non-zero modifier deserves a
       result = Expanded(
-          child:
-          Container(
+          child: Container(
             padding: EdgeInsets.only(left: 8.0),
-            decoration: BoxDecoration(
-              border: Border(left: BorderSide(width: 2.0, color: Colors.teal))
-            ),
             child: RichText(
               text: TextSpan(
-                // Note: Styles for TextSpans must be explicitly defined.
-                // Child text spans will inherit styles from parent
-                style: TextStyle(
-                  color: Colors.black,
-                ),
+                // Note: Styles for TextSpans must be explicitly defined, child text spans will inherit styles from parents
+                style: TextStyle(color: Colors.black, fontSize: !firstRow ? HISTORY_FONT_SIZE_DEFAULT : HISTORY_FONT_SIZE_FIRST_ROW),
                 children: <TextSpan>[
-                  TextSpan(text: "${Dnd5eRuleset.prettyPrintSum(roll)}\n"),
+                  TextSpan(text: "${Dnd5eRuleset.prettyPrintSum(roll)}\n",),
                   TextSpan(text: Dnd5eRuleset.prettyPrintResultDetails(roll), style: TextStyle(color: Colors.black.withOpacity(0.5)),),
                 ],
               ),
@@ -209,17 +202,14 @@ class _OpenRollerStateState extends State<OpenRollerState> {
           ),
       );
     } else {
-
       result = Column(
         children: <Widget>[
           Container(
             padding: EdgeInsets.only(left: 8.0),
-            decoration: BoxDecoration(
-                border: Border(left: BorderSide(width: 2.0, color: Colors.teal))
-            ),
             child: Text(
               Dnd5eRuleset.prettyPrintSum(roll),
               textAlign: TextAlign.start,
+              style: TextStyle(fontSize: !firstRow ? HISTORY_FONT_SIZE_DEFAULT : HISTORY_FONT_SIZE_FIRST_ROW),
             ),
           ),
         ],
