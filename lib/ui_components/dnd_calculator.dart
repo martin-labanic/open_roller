@@ -3,6 +3,7 @@ import "package:auto_size_text/auto_size_text.dart";
 import "package:dice_tower/dice_tower.dart";
 import "package:flutter/material.dart";
 import "package:flutter_grid_button/flutter_grid_button.dart";
+import 'package:open_roller/user_preferences.dart';
 
 class DndCalculator extends StatefulWidget {
   DndCalculator(this.onRollPressed(RollResult result), {Key key, this.title}) : super(key: key);
@@ -62,8 +63,12 @@ class _DndCalculatorState extends State<DndCalculator> {
     }
   }
 
-  int _minNumberOfSides = 2;
   int _currentNumberOfSides = 20;
+
+  bool _resetModifierAfterRoll = true;
+  bool _resetNumberOfDiceAfterRoll = true;
+  bool _resetModifierAfterAdd = true;
+  bool _resetNumberOfDiceAfterAdd = true;
 
   DndCalculator _dndCalculator;
   _DndCalculatorState(this._dndCalculator);
@@ -72,19 +77,21 @@ class _DndCalculatorState extends State<DndCalculator> {
   @override
   void initState() {
     super.initState();
+    _setup();
     updateUi();
+  }
+
+  Future<void> _setup() async {
+    _maxNumberOfDice = await SharedPreferencesHelper.getMaxNumberOfDice();
+    _resetModifierAfterRoll = await SharedPreferencesHelper.getResetModifierAfterRoll();
+    _resetNumberOfDiceAfterRoll = await SharedPreferencesHelper.getResetNumberOfDiceAfterRoll();
+    _resetModifierAfterAdd = await SharedPreferencesHelper.getResetModifierAfterAdd();
+    _resetNumberOfDiceAfterAdd = await SharedPreferencesHelper.getResetNumberOfDiceAfterAdd();
   }
 
   /// Update the dice display UI elements
   void updateUi() {
     setState(() {
-      if (false) { // TODO Update the number of dice based on the user preferences
-
-      }
-      if (false) { // TODO Update the modifier based on the user preferences
-
-      }
-
       // Update the modifier display
       _currentModifierDisplay = _currentModifier > -1 ? "+$_currentModifier" : "$_currentModifier";
 
@@ -225,13 +232,20 @@ class _DndCalculatorState extends State<DndCalculator> {
                             _diceToRoll.add(Dice(_currentNumberOfSides, modifier: _currentModifier, numberOfDice: _currentNumberOfDice));
                           }
                           _currentNumberOfSides = null;
-                        } else if (val == "-") { // If they tap `-` then remove the current dice value or the last di.
+
+                          if (_resetNumberOfDiceAfterAdd) { // Update the number of dice based on the user preferences
+                            _currentNumberOfDice = 1;
+                          }
+                          if (_resetModifierAfterAdd) { // Update the modifier based on the user preferences
+                            _currentModifier = 0;
+                          }
+                        } else if (val == "-") { // If they tap `<` then remove the current dice value or the last di.
                           if (_currentNumberOfSides != null) {
                             _currentNumberOfSides = null;
                           } else if (_diceToRoll.isNotEmpty) {
                             _diceToRoll.removeLast();
                           }
-                        } else if (val == "=") { // If they tap roll then add the current selection and
+                        } else if (val == "=") { // If they tap roll then add the current selection and roll the dice they've chosen.
                           if (_currentNumberOfSides != null) {
                             _diceToRoll.add(Dice(_currentNumberOfSides, modifier: _currentModifier, numberOfDice: _currentNumberOfDice));
                           }
@@ -239,6 +253,13 @@ class _DndCalculatorState extends State<DndCalculator> {
                             RollResult result = Dnd5eRuleset.roll(List<Dice>.from(_diceToRoll)); // Need to pass a copy.
                             this._dndCalculator.onRollPressed(result);
                             _diceToRoll.clear();
+
+                            if (_resetNumberOfDiceAfterRoll) { // Update the number of dice based on the user preferences
+                              _currentNumberOfDice = 1;
+                            }
+                            if (_resetModifierAfterRoll) { // Update the modifier based on the user preferences
+                              _currentModifier = 0;
+                            }
                           }
                         }
                       } else if (val is int){
