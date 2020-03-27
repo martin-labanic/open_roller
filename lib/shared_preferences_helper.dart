@@ -70,6 +70,18 @@ class SharedPreferencesHelper {
   }
 
   ///
+  static Future<bool> getLandscapeCalcOnRight() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var result = prefs.getBool(USER_PREF_LANDSCAPE_CALC_ON_RIGHT);
+    if (result == null) {
+      result = true;
+      prefs.setBool(USER_PREF_LANDSCAPE_CALC_ON_RIGHT, result);
+    }
+
+    return result;
+  }
+
+  ///
   static Future<bool> setMaxNumberOfDice(int value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return value != null ? await prefs.setInt(USER_PREF_MAX_NUMBER_OF_DICE, value) : false;
@@ -96,5 +108,11 @@ class SharedPreferencesHelper {
   static Future<bool> setResetNumberOfDiceAfterAdd(bool value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return value != null ? await prefs.setBool(USER_PREF_RESET_NUMBER_OF_DICE_AFTER_ADD, value) : false;
+  }
+
+  ///
+  static Future<bool> setLandscapeCalcOnRight(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return value != null ? await prefs.setBool(USER_PREF_LANDSCAPE_CALC_ON_RIGHT, value) : false;
   }
 }

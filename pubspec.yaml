@@ -14,7 +14,7 @@ dependencies:
   auto_size_text: 2.1.0
   flutter_grid_button: 1.1.6
   shared_preferences: 0.5.6+2
-#  provider: 4.0.4
+  provider: 4.0.4
 #  flutter_material_color_picker: 1.0.5
 
   # Firebase
