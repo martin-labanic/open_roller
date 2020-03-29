@@ -5,10 +5,23 @@ import "package:provider/provider.dart";
 class PreferencesState with ChangeNotifier {
   int _maxNumberOfDice = 12;
   bool _resetModifierAfterRoll = true;
-  bool _resetNumberOfDiceAfterRoll = true;//await SharedPreferencesHelper.getResetNumberOfDiceAfterRoll();
-  bool _resetModifierAfterAdd = true;//await SharedPreferencesHelper.getResetModifierAfterAdd();
-  bool _resetNumberOfDiceAfterAdd = true;//await SharedPreferencesHelper.getResetNumberOfDiceAfterAdd();
-  bool _landscapeCalcOnRight = true;//SharedPreferencesHelper.getLandscapeCalcOnRight();
+  bool _resetNumberOfDiceAfterRoll = true;
+  bool _resetModifierAfterAdd = true;
+  bool _resetNumberOfDiceAfterAdd = true;
+  bool _landscapeCalcOnRight = true;
+
+  PreferencesState() {
+    init();
+  }
+
+  void init() async {
+    _maxNumberOfDice = await SharedPreferencesHelper.getMaxNumberOfDice();
+    _resetModifierAfterRoll = await SharedPreferencesHelper.getResetModifierAfterRoll();
+    _resetNumberOfDiceAfterRoll = await SharedPreferencesHelper.getResetNumberOfDiceAfterRoll();
+    _resetModifierAfterAdd = await SharedPreferencesHelper.getResetModifierAfterAdd();
+    _resetNumberOfDiceAfterAdd = await SharedPreferencesHelper.getResetNumberOfDiceAfterAdd();
+    _landscapeCalcOnRight = await SharedPreferencesHelper.getLandscapeCalcOnRight();
+  }
 
   int get maxNumberOfDice => _maxNumberOfDice;
   set maxNumberOfDice(int value) {

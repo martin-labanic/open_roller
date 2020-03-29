@@ -1,130 +1,104 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:open_roller/preferences_state.dart';
 import 'package:provider/provider.dart';
 
-class SettingsRoute extends StatelessWidget {//StatefulWidget {
-//  @override
-//  _SettingsRouteState createState() => _SettingsRouteState();
-//}
-//
-//class _SettingsRouteState extends State<SettingsRoute> {
-////  bool _hasSetup = false;
-////  int _maxNumberOfDice = 12;
-////  bool _resetModifierAfterRoll = true;
-////  bool _resetNumberOfDiceAfterRoll = true;
-////  bool _resetModifierAfterAdd = true;
-////  bool _resetNumberOfDiceAfterAdd = true;
-////  bool _landscapeCalcOnRight = true;
-//
-//  @override
-//  void initState() {
-////    _setup();
-//    super.initState();
-//  }
-//
-////  void _setup() async {
-////    _resetModifierAfterRoll = await SharedPreferencesHelper.getResetModifierAfterRoll();
-////    _resetNumberOfDiceAfterRoll = await SharedPreferencesHelper.getResetNumberOfDiceAfterRoll();
-////    _resetModifierAfterAdd = await SharedPreferencesHelper.getResetModifierAfterAdd();
-////    _resetNumberOfDiceAfterAdd = await SharedPreferencesHelper.getResetNumberOfDiceAfterAdd();
-////    _landscapeCalcOnRight = await SharedPreferencesHelper.getLandscapeCalcOnRight();
-////    _resetModifierAfterRoll =
-////    _resetNumberOfDiceAfterRoll = await SharedPreferencesHelper.getResetNumberOfDiceAfterRoll();
-////    _resetModifierAfterAdd = await SharedPreferencesHelper.getResetModifierAfterAdd();
-////    _resetNumberOfDiceAfterAdd = await SharedPreferencesHelper.getResetNumberOfDiceAfterAdd();
-////    _landscapeCalcOnRight = await SharedPreferencesHelper.getLandscapeCalcOnRight();
-//
-//    setState(() {
-//      _hasSetup = true;
-//    });
-//  }
-
+class SettingsRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-//    if (_hasSetup) {
-//      return buildSettingsScreen(context);
-////    } else {
-////      return buildLoading();
-////    }
-//  }
-//
-////  Widget buildLoading() {
-////    return Scaffold(
-////        body: Container(
-////          child: Text("loading."),
-////        )
-////    );
-////  }
-//
-//  Widget buildSettingsScreen(BuildContext context) {
     final preferences = Provider.of<PreferencesState>(context);
     return Scaffold(
+        appBar: AppBar( // TODO Keep this or remove it once you implement user preferences.
+          // Here we take the value from the MyHomePage object that was created by
+          // the App.build method, and use it to set our appbar title.
+        title: Text("Settings"),
+//          backgroundColor: Colors.transparent,
+        ),
         body: Container(
+          padding: EdgeInsets.all(14),
           child: Column(
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  Text("reset modifier after roll"),
-                  Switch(
-                    onChanged: (value) {
-//                      _resetModifierAfterRoll = value;
-//                      SharedPreferencesHelper.setResetModifierAfterRoll(value);
-                      preferences.resetModifierAfterRoll = value;
-                    },
-                    value: preferences.resetModifierAfterRoll,
+                  Expanded(
+                    flex: 5,
+                    child: Text("reset modifier after roll")
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Switch(
+                      onChanged: (value) {
+                        preferences.resetModifierAfterRoll = value;
+                      },
+                      value: preferences.resetModifierAfterRoll,
+                    ),
                   )
                 ],
               ),
               Row(
                 children: <Widget>[
-                  Text("reset modifier after add"),
-                  Switch(
-                    onChanged: (value) {
-//                      _resetModifierAfterAdd = value;
-//                      SharedPreferencesHelper.setResetModifierAfterAdd(value);
-                      preferences.resetModifierAfterAdd = value;
-                    },
-                    value: preferences.resetModifierAfterAdd,
+                  Expanded(
+                    flex: 5,
+                    child: Text("reset modifier after add")
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Switch(
+                      onChanged: (value) {
+                        preferences.resetModifierAfterAdd = value;
+                      },
+                      value: preferences.resetModifierAfterAdd,
+                    ),
                   )
                 ],
               ),
               Row(
                 children: <Widget>[
-                  Text("reset # of dice after roll"),
-                  Switch(
-                    onChanged: (value) {
-//                      _resetNumberOfDiceAfterRoll = value;
-//                      SharedPreferencesHelper.setResetNumberOfDiceAfterRoll(value);
-                      preferences.resetNumberOfDiceAfterRoll = value;
-                    },
-                    value: preferences.resetNumberOfDiceAfterRoll,
+                  Expanded(
+                    flex: 5,
+                    child: Text("reset # of dice after roll")
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Switch(
+                      onChanged: (value) {
+                        preferences.resetNumberOfDiceAfterRoll = value;
+                      },
+                      value: preferences.resetNumberOfDiceAfterRoll,
+                    ),
                   )
                 ],
               ),
               Row(
                 children: <Widget>[
-                  Text("reset # of dice after add"),
-                  Switch(
-                    onChanged: (value) {
-//                      _resetNumberOfDiceAfterAdd = value;
-//                      SharedPreferencesHelper.setResetNumberOfDiceAfterAdd(value);
-                      preferences.resetNumberOfDiceAfterAdd = value;
-                    },
-                    value: preferences.resetNumberOfDiceAfterAdd,
+                  Expanded(
+                    flex: 5,
+                    child: Text("reset # of dice after add")
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Switch(
+                      onChanged: (value) {
+                        preferences.resetNumberOfDiceAfterAdd = value;
+                      },
+                      value: preferences.resetNumberOfDiceAfterAdd,
+                    ),
                   )
                 ],
               ),
               Row(
                 children: <Widget>[
-                  Text("landscape: calcuator on right"),
-                  Switch(
-                    onChanged: (value) {
-//                      _landscapeCalcOnRight = value;
-//                      SharedPreferencesHelper.setLandscapeCalcOnRight(value);
-                      preferences.landscapeCalcOnRight = value;
-                    },
-                    value: preferences.landscapeCalcOnRight,
+                  Expanded(
+                    flex: 5,
+                    child: Text("landscape: calcuator on right")
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Switch(
+                      onChanged: (value) {
+                        preferences.landscapeCalcOnRight = value;
+                      },
+                      value: preferences.landscapeCalcOnRight,
+                    ),
                   )
                 ],
               ),
