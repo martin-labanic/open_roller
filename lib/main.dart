@@ -84,23 +84,6 @@ class _OpenRollerStateState extends State<OpenRollerState> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar( // TODO Keep this or remove it once you implement user preferences.
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-//        title: Text(widget.title),
-
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SettingsRoute()),
-              );
-            },
-          ),
-        ],
-      ),
       body: OrientationBuilder (
           builder: (context, orientation) {
             return _buildBody(orientation);
