@@ -94,8 +94,9 @@ class _OpenRollerStateState extends State<OpenRollerState> {
 
   Widget _buildBody(Orientation orientation) {
     if (orientation == Orientation.portrait) {
-      return Container (
-          child: Column(
+      return Stack (
+          children: <Widget>[
+            Column(
             children: <Widget>[
               Expanded(
                 flex: 5,
@@ -106,7 +107,20 @@ class _OpenRollerStateState extends State<OpenRollerState> {
                 child: _buildUi(),
               )
             ],
-          )
+          ),
+            Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                icon: Icon(Icons.settings),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SettingsRoute()),
+                  );
+                },
+              ),
+            ),
+          ]
       );
     } else {
       return Container (
