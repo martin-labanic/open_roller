@@ -196,7 +196,7 @@ class _OpenRollerStateState extends State<OpenRollerState> {
                 // Note: Styles for TextSpans must be explicitly defined, child text spans will inherit styles from parents
                 style: TextStyle(color: Colors.black, fontSize: !firstRow ? HISTORY_FONT_SIZE_DEFAULT : HISTORY_FONT_SIZE_FIRST_ROW),
                 children: <TextSpan>[
-                  TextSpan(text: "${Dnd5eRuleset.prettyPrintSum(roll)}\n",),
+                  TextSpan(text: "${Dnd5eRuleset.prettyPrintResult(roll)}\n",),
                   TextSpan(text: Dnd5eRuleset.prettyPrintResultDetails(roll), style: TextStyle(color: Colors.black.withOpacity(0.5)),),
                 ],
               ),
@@ -209,7 +209,7 @@ class _OpenRollerStateState extends State<OpenRollerState> {
           Container(
             padding: EdgeInsets.only(left: 8.0),
             child: Text(
-              Dnd5eRuleset.prettyPrintSum(roll),
+              Dnd5eRuleset.prettyPrintResult(roll),
               textAlign: TextAlign.start,
               style: TextStyle(fontSize: !firstRow ? HISTORY_FONT_SIZE_DEFAULT : HISTORY_FONT_SIZE_FIRST_ROW),
             ),
