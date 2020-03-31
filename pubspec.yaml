@@ -1,7 +1,7 @@
 name: open_roller
 description: Open source dice rolling app.
 
-version: 0.6.2
+version: 0.7.0
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -9,19 +9,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  dice_tower: 0.5.3
+  dice_tower: 0.6.0
   flutter_launcher_icons: 0.7.4
-#  provider:
-#  numberpicker: 1.1.0
   auto_size_text: 2.1.0
-#  flutter_material_color_picker: 1.0.5
   flutter_grid_button: 1.1.6
-#  shared_preferences: 0.5.6+2
+  shared_preferences: 0.5.6+2
+  provider: 4.0.4
+#  flutter_material_color_picker: 1.0.5
 
   # Firebase
-#  firebase_core: 0.4.0+9
-  firebase_crashlytics: 0.1.3+2
-
+  firebase_crashlytics: 0.1.3+3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -43,7 +40,6 @@ flutter_icons:
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
