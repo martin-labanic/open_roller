@@ -1,7 +1,7 @@
 name: open_roller
 description: Open source dice rolling app.
 
-version: 0.6.2
+version: 0.7.0
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  dice_tower: 0.5.3
+  dice_tower: 0.6.0
   flutter_launcher_icons: 0.7.4
   auto_size_text: 2.1.0
   flutter_grid_button: 1.1.6
