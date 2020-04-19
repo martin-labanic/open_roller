@@ -24,6 +24,7 @@ class _DndCalculatorState extends State<DndCalculator> {
   var _diceToRoll = List<Dice>();
 
   String _currentCalcDisplay = "";
+  String _currentCalcDisplayAppendToEnd = "";
   String _currentModifierDisplay = "";
   String _currentNumberOfDiceDisplay = "";
 
@@ -80,7 +81,7 @@ class _DndCalculatorState extends State<DndCalculator> {
   void initState() {
     super.initState();
 //    _setup();
-    updateUi();
+    updateUi(appendToEnd: _currentCalcDisplayAppendToEnd);
   }
 
 //  Future<void> _setup() async {
@@ -93,7 +94,7 @@ class _DndCalculatorState extends State<DndCalculator> {
 //  }
 
   /// Update the dice display UI elements
-  void updateUi() {
+  void updateUi({String appendToEnd = ""}) {
     setState(() {
       // Update the modifier display
       _currentModifierDisplay = _currentModifier > -1 ? "+$_currentModifier" : "$_currentModifier";
@@ -119,6 +120,8 @@ class _DndCalculatorState extends State<DndCalculator> {
             : "D$_currentNumberOfSides$modifierString";
         _currentCalcDisplay += (_currentCalcDisplay.isNotEmpty) ? " + $completeTitle" : "$completeTitle";
       }
+
+      _currentCalcDisplay += appendToEnd;
     });
   }
 
@@ -157,7 +160,7 @@ class _DndCalculatorState extends State<DndCalculator> {
                       child: FlatButton(
                         onPressed: () {
                           _incrementNumberOfDice();
-                          updateUi();
+                          updateUi(appendToEnd: _currentCalcDisplayAppendToEnd);
                         },
                         child: Text("+"),
                       ),
@@ -181,7 +184,7 @@ class _DndCalculatorState extends State<DndCalculator> {
                       child: FlatButton(
                         onPressed: (){
                           _decrementNumberOfDice();
-                          updateUi();
+                          updateUi(appendToEnd: _currentCalcDisplayAppendToEnd);
                         },
                         child: Text("-"),
                       ),
@@ -191,7 +194,7 @@ class _DndCalculatorState extends State<DndCalculator> {
                       child: FlatButton(
                         onPressed: () {
                           _incrementModifier();
-                          updateUi();
+                          updateUi(appendToEnd: _currentCalcDisplayAppendToEnd);
                         },
                         child: Text("+"),
                       ),
@@ -215,7 +218,7 @@ class _DndCalculatorState extends State<DndCalculator> {
                       child: FlatButton(
                         onPressed: (){
                           _decrementModifier();
-                          updateUi();
+                          updateUi(appendToEnd: _currentCalcDisplayAppendToEnd);
                         },
                         child: Text("-"),
                       ),
@@ -232,6 +235,7 @@ class _DndCalculatorState extends State<DndCalculator> {
                     borderColor: Colors.transparent,
 //        borderWidth: 2,
                     onPressed: (dynamic val) {
+                      _currentCalcDisplayAppendToEnd = "";
                       if (val is String) {
                         if (val == "+") { // If they tap `+` then add the current di selection and update the ui.
                           if (_currentNumberOfSides != null) {
@@ -245,6 +249,7 @@ class _DndCalculatorState extends State<DndCalculator> {
                           if (preferences.resetModifierAfterAdd) { // Update the modifier based on the user preferences
                             _currentModifier = 0;
                           }
+                          _currentCalcDisplayAppendToEnd = "+";
                         } else if (val == "-") { // If they tap `<` then remove the current dice value or the last di.
                           if (_currentNumberOfSides != null) {
                             _currentNumberOfSides = null;
@@ -271,7 +276,7 @@ class _DndCalculatorState extends State<DndCalculator> {
                       } else if (val is int){
                         _currentNumberOfSides = val;
                       }
-                      updateUi();
+                      updateUi(appendToEnd: _currentCalcDisplayAppendToEnd);
                     },
                     items: [
                       [
