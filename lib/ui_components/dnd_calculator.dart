@@ -3,9 +3,8 @@ import "package:auto_size_text/auto_size_text.dart";
 import "package:dice_tower/dice_tower.dart";
 import "package:flutter/material.dart";
 import "package:flutter_grid_button/flutter_grid_button.dart";
-import 'package:open_roller/preferences_state.dart';
-import 'package:open_roller/shared_preferences_helper.dart';
-import 'package:provider/provider.dart';
+import "package:open_roller/preferences_state.dart";
+import "package:provider/provider.dart";
 
 class DndCalculator extends StatefulWidget {
   DndCalculator(this.onRollPressed(RollResult result), {Key key, this.title}) : super(key: key);
@@ -68,11 +67,6 @@ class _DndCalculatorState extends State<DndCalculator> {
 
   int _currentNumberOfSides = 20;
 
-//  bool _resetModifierAfterRoll = true;
-//  bool _resetNumberOfDiceAfterRoll = true;
-//  bool _resetModifierAfterAdd = true;
-//  bool _resetNumberOfDiceAfterAdd = true;
-
   DndCalculator _dndCalculator;
   _DndCalculatorState(this._dndCalculator);
 
@@ -83,15 +77,6 @@ class _DndCalculatorState extends State<DndCalculator> {
 //    _setup();
     updateUi(appendToEnd: _currentCalcDisplayAppendToEnd);
   }
-
-//  Future<void> _setup() async {
-////    var state = PreferencesState();
-////    _maxNumberOfDice = state.maxNumberOfDice;//await SharedPreferencesHelper.getMaxNumberOfDice();
-////    _resetModifierAfterRoll = state.resetModifierAfterRoll;//await SharedPreferencesHelper.getResetModifierAfterRoll();
-////    _resetNumberOfDiceAfterRoll = state.resetNumberOfDiceAfterRoll;//await SharedPreferencesHelper.getResetNumberOfDiceAfterRoll();
-////    _resetModifierAfterAdd = await SharedPreferencesHelper.getResetModifierAfterAdd();
-////    _resetNumberOfDiceAfterAdd = await SharedPreferencesHelper.getResetNumberOfDiceAfterAdd();
-//  }
 
   /// Update the dice display UI elements
   void updateUi({String appendToEnd = ""}) {
