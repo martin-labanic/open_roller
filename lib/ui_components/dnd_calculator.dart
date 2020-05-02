@@ -268,33 +268,15 @@ class _DndCalculatorState extends State<DndCalculator> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
-                            Expanded(
-                              flex: 1,
-                              child: FlatButton(
-                                onPressed: () {
-                                  onPressedButton(4, preferences);
-                                },
-                                child: Center(child: Text("D4", style: _calculatorTextStyle)),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: FlatButton(
-                                onPressed: () {
-                                  onPressedButton(6, preferences);
-                                },
-                                child: Center(child: Text("D6", style: _calculatorTextStyle)),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: FlatButton(
-                                onPressed: () {
-                                  onPressedButton(8, preferences);
-                                },
-                                child: Center(child: Text("D8", style: _calculatorTextStyle)),
-                              ),
-                            ),
+                            calculatorButton("D4", 1, () {
+                              onPressedButton(4, preferences);
+                            }),
+                            calculatorButton("D6", 1, () {
+                              onPressedButton(6, preferences);
+                            }),
+                            calculatorButton("D8", 1, () {
+                              onPressedButton(8, preferences);
+                            }),
                             Expanded(
                               flex: 1,
                               child: FlatButton(
@@ -313,42 +295,18 @@ class _DndCalculatorState extends State<DndCalculator> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
-                            Expanded(
-                              flex: 1,
-                              child: FlatButton(
-                                onPressed: () {
-                                  onPressedButton(10, preferences);
-                                },
-                                child: Center(child: Text("D10", style: _calculatorTextStyle)),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: FlatButton(
-                                onPressed: () {
-                                  onPressedButton(12, preferences);
-                                },
-                                child: Center(child: Text("D12", style: _calculatorTextStyle)),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: FlatButton(
-                                onPressed: () {
-                                  onPressedButton(20, preferences);
-                                },
-                                child: Center(child: Text("D20", style: _calculatorTextStyle)),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: FlatButton(
-                                onPressed: () {
-                                  onPressedButton("+", preferences);
-                                },
-                                child: Center(child: Text("+", style: _calculatorTextStyle)),
-                              ),
-                            ),
+                            calculatorButton("D10", 1, () {
+                              onPressedButton(10, preferences);
+                            }),
+                            calculatorButton("D12", 1, () {
+                              onPressedButton(12, preferences);
+                            }),
+                            calculatorButton("D20", 1, () {
+                              onPressedButton(20, preferences);
+                            }),
+                            calculatorButton("+", 1, () {
+                              onPressedButton("+", preferences);
+                            }),
                           ],
                         ),
                       ),
@@ -358,33 +316,18 @@ class _DndCalculatorState extends State<DndCalculator> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
-                            Expanded(
-                              flex: 1,
-                              child: FlatButton(
-                                onPressed: () {
-                                  onPressedButton(100, preferences);
-                                },
-                                child: Center(child: Text("D100", style: _calculatorTextStyle)),
-                              ),
-                            ),
+                            calculatorButton("D100", 1, () {
+                              onPressedButton(100, preferences);
+                            }),
                             Expanded(
                               flex: 2,
                               child: Container (
-//                                onPressed: () {
-//                                  // TODO.
-//                                },
                                 child: Center(child: Text("", style: _calculatorTextStyle)),
                               ),
                             ),
-                            Expanded(
-                              flex: 1,
-                              child: FlatButton(
-                                onPressed: () {
-                                  onPressedButton("=", preferences);
-                                },
-                                child: Center(child: Text("roll", style: _calculatorTextStyle)),
-                              ),
-                            ),
+                            calculatorButton("roll", 1, () {
+                              onPressedButton("=", preferences);
+                            })
                           ],
                         ),
                       ),
@@ -399,4 +342,15 @@ class _DndCalculatorState extends State<DndCalculator> {
     )
     );
   }
+
+  Widget calculatorButton(String text, int flex, VoidCallback onPressed) {
+    return Expanded(
+      flex: flex,
+      child: FlatButton(
+        child: Center(child: Text(text, style: _calculatorTextStyle)),
+        onPressed: onPressed,
+      ),
+    );
+  }
+
 }
