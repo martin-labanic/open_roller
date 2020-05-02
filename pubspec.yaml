@@ -12,7 +12,6 @@ dependencies:
   dice_tower: 0.6.5
   flutter_launcher_icons: 0.7.4
   auto_size_text: 2.1.0
-  flutter_grid_button: 1.1.6
   shared_preferences: 0.5.6+2
   provider: 4.0.4
 #  flutter_material_color_picker: 1.0.5
@@ -45,10 +44,7 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
-  fonts:
-  - family: CalcIcon
-    fonts:
-    - asset: fonts/CalcIcons/font/CalcIcons.ttf
+#  fonts:
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

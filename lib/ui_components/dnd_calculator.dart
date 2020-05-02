@@ -2,7 +2,6 @@
 import "package:auto_size_text/auto_size_text.dart";
 import "package:dice_tower/dice_tower.dart";
 import "package:flutter/material.dart";
-import "package:flutter_grid_button/flutter_grid_button.dart";
 import "package:open_roller/preferences_state.dart";
 import "package:provider/provider.dart";
 
@@ -17,9 +16,7 @@ class DndCalculator extends StatefulWidget {
 }
 
 class _DndCalculatorState extends State<DndCalculator> {
-  final normalStyle = TextStyle(fontSize: 18);
-  final calcIconStyle = TextStyle(fontSize: 26, fontFamily: "CalcIcon");// backgroundColor: Colors.grey[300]);
-
+  final _calculatorTextStyle = TextStyle(fontSize: 18);
   var _diceToRoll = List<Dice>();
 
   String _currentCalcDisplay = "";
@@ -110,6 +107,52 @@ class _DndCalculatorState extends State<DndCalculator> {
     });
   }
 
+  ///
+  void onPressedButton(dynamic value, PreferencesState preferences) {
+    _currentCalcDisplayAppendToEnd = "";
+    if (value is String) {
+      if (value == "+") { // If they tap `+` then add the current di selection and update the ui.
+        if (_currentNumberOfSides != null) {
+          _diceToRoll.add(Dice(_currentNumberOfSides, modifier: _currentModifier, numberOfDice: _currentNumberOfDice));
+        }
+        _currentNumberOfSides = null;
+
+        if (preferences.resetNumberOfDiceAfterAdd) { // Update the number of dice based on the user preferences
+          _currentNumberOfDice = 1;
+        }
+        if (preferences.resetModifierAfterAdd) { // Update the modifier based on the user preferences
+          _currentModifier = 0;
+        }
+        _currentCalcDisplayAppendToEnd = "+";
+      } else if (value == "-") { // If they tap back then remove the current dice value or the last di.
+        if (_currentNumberOfSides != null) {
+          _currentNumberOfSides = null;
+        } else if (_diceToRoll.isNotEmpty) {
+          _diceToRoll.removeLast();
+        }
+      } else if (value == "=") { // If they tap roll then add the current selection and roll the dice they've chosen.
+        if (_currentNumberOfSides != null) {
+          _diceToRoll.add(Dice(_currentNumberOfSides, modifier: _currentModifier, numberOfDice: _currentNumberOfDice));
+        }
+        if (_diceToRoll.isNotEmpty) {
+          RollResult result = Dnd5eRuleset.roll(List<Dice>.from(_diceToRoll)); // Need to pass a copy.
+          this._dndCalculator.onRollPressed(result);
+          _diceToRoll.clear();
+
+          if (preferences.resetNumberOfDiceAfterRoll) { // Update the number of dice based on the user preferences
+            _currentNumberOfDice = 1;
+          }
+          if (preferences.resetModifierAfterRoll) { // Update the modifier based on the user preferences
+            _currentModifier = 0;
+          }
+        }
+      }
+    } else if (value is int){
+      _currentNumberOfSides = value;
+    }
+    updateUi(appendToEnd: _currentCalcDisplayAppendToEnd);
+  }
+
   Widget build(BuildContext context) {
 //    final preferences = Provider.of<PreferencesState>(context);
     return Consumer<PreferencesState>(
@@ -119,7 +162,7 @@ class _DndCalculatorState extends State<DndCalculator> {
         Expanded(
           flex: 1,
           child: Container(
-            color:  Colors.grey[200],
+            color:  preferences.primaryColor,//Colors.grey[200],
             constraints: BoxConstraints.expand(),
             alignment: Alignment(1.0, 0.0),
             padding: EdgeInsets.only(left: 4.0, right: 4.0, top: 1.0, bottom: 1.0),
@@ -215,81 +258,136 @@ class _DndCalculatorState extends State<DndCalculator> {
                 flex: 4,
                 child: Padding(
                   padding: const EdgeInsets.all(0.0),
-                  child: GridButton(
-                    textStyle: normalStyle,
-                    borderColor: Colors.transparent,
-//        borderWidth: 2,
-                    onPressed: (dynamic val) {
-                      _currentCalcDisplayAppendToEnd = "";
-                      if (val is String) {
-                        if (val == "+") { // If they tap `+` then add the current di selection and update the ui.
-                          if (_currentNumberOfSides != null) {
-                            _diceToRoll.add(Dice(_currentNumberOfSides, modifier: _currentModifier, numberOfDice: _currentNumberOfDice));
-                          }
-                          _currentNumberOfSides = null;
-
-                          if (preferences.resetNumberOfDiceAfterAdd) { // Update the number of dice based on the user preferences
-                            _currentNumberOfDice = 1;
-                          }
-                          if (preferences.resetModifierAfterAdd) { // Update the modifier based on the user preferences
-                            _currentModifier = 0;
-                          }
-                          _currentCalcDisplayAppendToEnd = "+";
-                        } else if (val == "-") { // If they tap `<` then remove the current dice value or the last di.
-                          if (_currentNumberOfSides != null) {
-                            _currentNumberOfSides = null;
-                          } else if (_diceToRoll.isNotEmpty) {
-                            _diceToRoll.removeLast();
-                          }
-                        } else if (val == "=") { // If they tap roll then add the current selection and roll the dice they've chosen.
-                          if (_currentNumberOfSides != null) {
-                            _diceToRoll.add(Dice(_currentNumberOfSides, modifier: _currentModifier, numberOfDice: _currentNumberOfDice));
-                          }
-                          if (_diceToRoll.isNotEmpty) {
-                            RollResult result = Dnd5eRuleset.roll(List<Dice>.from(_diceToRoll)); // Need to pass a copy.
-                            this._dndCalculator.onRollPressed(result);
-                            _diceToRoll.clear();
-
-                            if (preferences.resetNumberOfDiceAfterRoll) { // Update the number of dice based on the user preferences
-                              _currentNumberOfDice = 1;
-                            }
-                            if (preferences.resetModifierAfterRoll) { // Update the modifier based on the user preferences
-                              _currentModifier = 0;
-                            }
-                          }
-                        }
-                      } else if (val is int){
-                        _currentNumberOfSides = val;
-                      }
-                      updateUi(appendToEnd: _currentCalcDisplayAppendToEnd);
-                    },
-                    items: [
-                      [
-                        GridButtonItem(title: "D4", value: 4),
-                        GridButtonItem(title: "D6", value: 6),
-                        GridButtonItem(title: "D8", value: 8),
-//                        IconButton(
-//                          icon: Icon(Icons.volume_up),
-//                          tooltip: 'Increase volume by 10',
-//                          onPressed: () {
-//                            setState(() {
-//                              _volume += 10;
-//                            });
-//                          },
-//                        )
-                        GridButtonItem(title: "<", value: "-", color: Colors.grey[300], textStyle: calcIconStyle),
-                      ],
-                      [
-                        GridButtonItem(title: "D10", value: 10),
-                        GridButtonItem(title: "D12", value: 12),
-                        GridButtonItem(title: "D20", value: 20),
-                        GridButtonItem(title: "+", value: "+", color: Colors.grey[300]),
-                      ],
-                      [
-                        GridButtonItem(title: "D100", value: 100),
-                        GridButtonItem(title: "", flex: 2),
-                        GridButtonItem(title: "roll", value: "=", color: Colors.grey[300]),
-                      ],
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 1,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            Expanded(
+                              flex: 1,
+                              child: FlatButton(
+                                onPressed: () {
+                                  onPressedButton(4, preferences);
+                                },
+                                child: Center(child: Text("D4", style: _calculatorTextStyle)),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: FlatButton(
+                                onPressed: () {
+                                  onPressedButton(6, preferences);
+                                },
+                                child: Center(child: Text("D6", style: _calculatorTextStyle)),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: FlatButton(
+                                onPressed: () {
+                                  onPressedButton(8, preferences);
+                                },
+                                child: Center(child: Text("D8", style: _calculatorTextStyle)),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: FlatButton(
+                                onPressed: () {
+                                  onPressedButton("-", preferences);
+                                },
+                                child: Center(child: Icon(Icons.backspace)),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            Expanded(
+                              flex: 1,
+                              child: FlatButton(
+                                onPressed: () {
+                                  onPressedButton(10, preferences);
+                                },
+                                child: Center(child: Text("D10", style: _calculatorTextStyle)),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: FlatButton(
+                                onPressed: () {
+                                  onPressedButton(12, preferences);
+                                },
+                                child: Center(child: Text("D12", style: _calculatorTextStyle)),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: FlatButton(
+                                onPressed: () {
+                                  onPressedButton(20, preferences);
+                                },
+                                child: Center(child: Text("D20", style: _calculatorTextStyle)),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: FlatButton(
+                                onPressed: () {
+                                  onPressedButton("+", preferences);
+                                },
+                                child: Center(child: Text("+", style: _calculatorTextStyle)),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            Expanded(
+                              flex: 1,
+                              child: FlatButton(
+                                onPressed: () {
+                                  onPressedButton(100, preferences);
+                                },
+                                child: Center(child: Text("D100", style: _calculatorTextStyle)),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: Container (
+//                                onPressed: () {
+//                                  // TODO.
+//                                },
+                                child: Center(child: Text("", style: _calculatorTextStyle)),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: FlatButton(
+                                onPressed: () {
+                                  onPressedButton("=", preferences);
+                                },
+                                child: Center(child: Text("roll", style: _calculatorTextStyle)),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
