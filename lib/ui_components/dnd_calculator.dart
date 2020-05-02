@@ -183,16 +183,10 @@ class _DndCalculatorState extends State<DndCalculator> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: FlatButton(
-                        onPressed: () {
-                          _incrementNumberOfDice();
-                          updateUi(appendToEnd: _currentCalcDisplayAppendToEnd);
-                        },
-                        child: Text("+"),
-                      ),
-                    ),
+                    calculatorButton("+", 1, () {
+                      _incrementNumberOfDice();
+                      updateUi(appendToEnd: _currentCalcDisplayAppendToEnd);
+                    }),
                     Expanded(
                       flex: 1,
                       child: Container(
@@ -207,26 +201,14 @@ class _DndCalculatorState extends State<DndCalculator> {
                         ),
                       ),
                     ),
-                    Expanded(
-                      flex: 1,
-                      child: FlatButton(
-                        onPressed: (){
-                          _decrementNumberOfDice();
-                          updateUi(appendToEnd: _currentCalcDisplayAppendToEnd);
-                        },
-                        child: Text("-"),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: FlatButton(
-                        onPressed: () {
-                          _incrementModifier();
-                          updateUi(appendToEnd: _currentCalcDisplayAppendToEnd);
-                        },
-                        child: Text("+"),
-                      ),
-                    ),
+                    calculatorButton("-", 1, () {
+                      _decrementNumberOfDice();
+                      updateUi(appendToEnd: _currentCalcDisplayAppendToEnd);
+                    }),
+                    calculatorButton("+", 1, () {
+                      _incrementModifier();
+                      updateUi(appendToEnd: _currentCalcDisplayAppendToEnd);
+                    }),
                     Expanded(
                       flex: 1,
                       child: Container(
@@ -241,16 +223,10 @@ class _DndCalculatorState extends State<DndCalculator> {
                         ),
                       ),
                     ),
-                    Expanded(
-                      flex: 1,
-                      child: FlatButton(
-                        onPressed: (){
-                          _decrementModifier();
-                          updateUi(appendToEnd: _currentCalcDisplayAppendToEnd);
-                        },
-                        child: Text("-"),
-                      ),
-                    ),
+                    calculatorButton("-", 1, () {
+                      _decrementModifier();
+                      updateUi(appendToEnd: _currentCalcDisplayAppendToEnd);
+                    }),
                   ],
                 ),
               ),
