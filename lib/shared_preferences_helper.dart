@@ -129,13 +129,20 @@ class SharedPreferencesHelper {
   static Future<Color> _getColor(String colourName, String defaultColor) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Color result;
-    var hexColor = prefs.getString(colourName);
-    if (hexColor != null) {
-      result = Color(int.parse(hexColor));
-    } else {
+    try {
+      var hexColor = prefs.getString(colourName);
+      if (hexColor != null && hexColor.isNotEmpty) {
+        result = Color(int.parse(hexColor));
+      } else {
+        result = Color(int.parse(defaultColor));
+        await prefs.setString(colourName, defaultColor);
+      }
+    } catch (e, s) {
+print(e.toString() + s.toString());
       result = Color(int.parse(defaultColor));
       await prefs.setString(colourName, defaultColor);
     }
+
 
     return result;
   }
@@ -207,7 +214,10 @@ class SharedPreferencesHelper {
 
   ///
   static Future<bool> _setColor(String name, Color value) async {
+    if (name == null || name.isEmpty || value == null) {
+      return false;
+    }
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return value != null ? await prefs.setString(name, value.toString()) : false;
+    return await prefs.setString(name, value.value.toString());
   }
 }
