@@ -8,8 +8,10 @@ import "package:firebase_crashlytics/firebase_crashlytics.dart";
 import 'package:provider/provider.dart';
 //import "package:material_design_icons_flutter/material_design_icons_flutter.dart";
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   FlutterError.onError = Crashlytics.instance.recordFlutterError;
+  await PreferencesState().init();
   runApp(MyApp());
 }
 
@@ -25,47 +27,26 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider (
       create: (context) => PreferencesState(),
       child: MaterialApp(
-        theme: ThemeData(
-          // This is the theme of your application.
-          //
-          // Try running your application with "flutter run". You'll see the
-          // application has a blue toolbar. Then, without quitting the app, try
-          // changing the primarySwatch below to Colors.green and then invoke
-          // "hot reload" (press "r" in the console where you ran "flutter run",
-          // or simply save your changes to "hot reload" in a Flutter IDE).
-          // Notice that the counter didn't reset back to zero; the application
-          // is not restarted.
-          primarySwatch: Colors.green,
-        ),
-        home: OpenRollerState(title: "Flutter Demo Home Page"),
+        home: OpenRoller(title: ""),
 
       ),
     );
   }
 }
 
-class OpenRollerState extends StatefulWidget {
-  OpenRollerState({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
+class OpenRoller extends StatefulWidget {
+  OpenRoller({Key key, this.title}) : super(key: key);
   final String title;
 
   @override
-  _OpenRollerStateState createState() => _OpenRollerStateState();
+  _OpenRollerState createState() => _OpenRollerState();
 }
 
-class _OpenRollerStateState extends State<OpenRollerState> {
+class _OpenRollerState extends State<OpenRoller> {
   var _history = List<RollResult>();
   UiOrientation uiOrientation = UiOrientation.Bottom;
   Orientation _orientation;
+  PreferencesState preferences;
 
   void _updateHistory(RollResult roll) {
     setState(() {
@@ -76,23 +57,18 @@ class _OpenRollerStateState extends State<OpenRollerState> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays ([SystemUiOverlay.bottom]); // Disable the status bar.
+    preferences = Provider.of<PreferencesState>(context);
 
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       body: OrientationBuilder (
           builder: (context, orientation) {
-            return _buildBody(orientation);
+            return _buildBody(orientation, preferences);
           }
         ),
     );
   }
 
-  Widget _buildBody(Orientation orientation) {
+  Widget _buildBody(Orientation orientation, PreferencesState preferences) {
     if (orientation == Orientation.portrait) {
       return Stack (
           children: <Widget>[
@@ -158,7 +134,7 @@ class _OpenRollerStateState extends State<OpenRollerState> {
 
   Widget _buildRow(RollResult roll, bool firstRow) {
     return Container(
-        color: Color.fromARGB(0, 0, 0, 0),
+        color: preferences.secondaryColor,
         child:
           ListTile(
             dense: true,
@@ -173,7 +149,7 @@ class _OpenRollerStateState extends State<OpenRollerState> {
                   child: Text(
                     roll.title,
                     textAlign: TextAlign.start,
-                    style: TextStyle(fontSize: !firstRow ? HISTORY_FONT_SIZE_DEFAULT : HISTORY_FONT_SIZE_FIRST_ROW, color: Colors.lightBlue),
+                    style: TextStyle(fontSize: !firstRow ? HISTORY_FONT_SIZE_DEFAULT : HISTORY_FONT_SIZE_FIRST_ROW, color: preferences.diceRolledTextColor),
                   ),
                 ),
                  _buildRollDetails(roll, firstRow)
@@ -194,10 +170,10 @@ class _OpenRollerStateState extends State<OpenRollerState> {
             child: RichText(
               text: TextSpan(
                 // Note: Styles for TextSpans must be explicitly defined, child text spans will inherit styles from parents
-                style: TextStyle(color: Colors.black, fontSize: !firstRow ? HISTORY_FONT_SIZE_DEFAULT : HISTORY_FONT_SIZE_FIRST_ROW),
+                style: TextStyle(color: preferences.resultTextColor, fontSize: !firstRow ? HISTORY_FONT_SIZE_DEFAULT : HISTORY_FONT_SIZE_FIRST_ROW),
                 children: <TextSpan>[
                   TextSpan(text: "${Dnd5eRuleset.prettyPrintResult(roll)}\n",),
-                  TextSpan(text: Dnd5eRuleset.prettyPrintResultDetails(roll), style: TextStyle(color: Colors.black.withOpacity(0.5)),),
+                  TextSpan(text: Dnd5eRuleset.prettyPrintResultDetails(roll), style: TextStyle(color: preferences.resultDetailsTextColor),),
                 ],
               ),
             )
@@ -211,7 +187,7 @@ class _OpenRollerStateState extends State<OpenRollerState> {
             child: Text(
               Dnd5eRuleset.prettyPrintResult(roll),
               textAlign: TextAlign.start,
-              style: TextStyle(fontSize: !firstRow ? HISTORY_FONT_SIZE_DEFAULT : HISTORY_FONT_SIZE_FIRST_ROW),
+              style: TextStyle(color: preferences.resultTextColor, fontSize: !firstRow ? HISTORY_FONT_SIZE_DEFAULT : HISTORY_FONT_SIZE_FIRST_ROW),
             ),
           ),
         ],

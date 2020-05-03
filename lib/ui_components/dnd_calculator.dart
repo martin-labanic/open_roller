@@ -154,167 +154,172 @@ class _DndCalculatorState extends State<DndCalculator> {
   }
 
   Widget build(BuildContext context) {
-//    final preferences = Provider.of<PreferencesState>(context);
     return Consumer<PreferencesState>(
       builder: (context, preferences, _) =>
-    Column(
-      children: <Widget>[
-        Expanded(
-          flex: 1,
-          child: Container(
-            color:  preferences.primaryColor,//Colors.grey[200],
-            constraints: BoxConstraints.expand(),
-            alignment: Alignment(1.0, 0.0),
-            padding: EdgeInsets.only(left: 4.0, right: 4.0, top: 1.0, bottom: 1.0),
-            child: AutoSizeText(
-              _currentCalcDisplay,
-              textAlign: TextAlign.end,
-              style: TextStyle(fontSize: 32.0),
-              maxLines: 1,
-            ),
-          )
-        ),
-        Expanded(
-          flex: 6,
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                flex: 1,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    calculatorButton("+", 1, () {
-                      _incrementNumberOfDice();
-                      updateUi(appendToEnd: _currentCalcDisplayAppendToEnd);
-                    }),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        constraints: BoxConstraints.expand(),
-                        alignment: Alignment(0.0, 0.0),
-                        padding: EdgeInsets.only(left: 4.0, right: 4.0, top: 1.0, bottom: 1.0),
-                        child: AutoSizeText(
-                          _currentNumberOfDiceDisplay,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 24.0),
-                          maxLines: 1,
-                        ),
-                      ),
-                    ),
-                    calculatorButton("-", 1, () {
-                      _decrementNumberOfDice();
-                      updateUi(appendToEnd: _currentCalcDisplayAppendToEnd);
-                    }),
-                    calculatorButton("+", 1, () {
-                      _incrementModifier();
-                      updateUi(appendToEnd: _currentCalcDisplayAppendToEnd);
-                    }),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        constraints: BoxConstraints.expand(),
-                        alignment: Alignment(0.0, 0.0),
-                        padding: EdgeInsets.only(left: 4.0, right: 4.0, top: 1.0, bottom: 1.0),
-                        child: AutoSizeText(
-                          _currentModifierDisplay,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 24.0),
-                          maxLines: 1,
-                        ),
-                      ),
-                    ),
-                    calculatorButton("-", 1, () {
-                      _decrementModifier();
-                      updateUi(appendToEnd: _currentCalcDisplayAppendToEnd);
-                    }),
-                  ],
-                ),
+    Container(
+      color: preferences.primaryColor,
+      child: Column(
+
+        children: <Widget>[
+          Expanded(
+            flex: 1,
+            child: Container(
+              color: preferences.primaryColor,
+              constraints: BoxConstraints.expand(),
+              alignment: Alignment(1.0, 0.0),
+              padding: EdgeInsets.only(left: 4.0, right: 4.0, top: 1.0, bottom: 1.0),
+              child: AutoSizeText(
+                _currentCalcDisplay,
+                textAlign: TextAlign.end,
+                style: TextStyle(fontSize: 32.0),
+                maxLines: 1,
               ),
-              Expanded(
-                flex: 4,
-                child: Padding(
-                  padding: const EdgeInsets.all(0.0),
+            )
+          ),
+          Expanded(
+            flex: 6,
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 1,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
+                      calculatorButton("+", 1, () {
+                        _incrementNumberOfDice();
+                        updateUi(appendToEnd: _currentCalcDisplayAppendToEnd);
+                      }),
                       Expanded(
                         flex: 1,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            calculatorButton("D4", 1, () {
-                              onPressedButton(4, preferences);
-                            }),
-                            calculatorButton("D6", 1, () {
-                              onPressedButton(6, preferences);
-                            }),
-                            calculatorButton("D8", 1, () {
-                              onPressedButton(8, preferences);
-                            }),
-                            Expanded(
-                              flex: 1,
-                              child: FlatButton(
-                                onPressed: () {
-                                  onPressedButton("-", preferences);
-                                },
-                                child: Center(child: Icon(Icons.backspace)),
-                              ),
-                            ),
-                          ],
+                        child: Container(
+                          constraints: BoxConstraints.expand(),
+                          alignment: Alignment(0.0, 0.0),
+                          padding: EdgeInsets.only(left: 4.0, right: 4.0, top: 1.0, bottom: 1.0),
+                          child: AutoSizeText(
+                            _currentNumberOfDiceDisplay,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 24.0),
+                            maxLines: 1,
+                          ),
                         ),
                       ),
+                      calculatorButton("-", 1, () {
+                        _decrementNumberOfDice();
+                        updateUi(appendToEnd: _currentCalcDisplayAppendToEnd);
+                      }),
+                      calculatorButton("+", 1, () {
+                        _incrementModifier();
+                        updateUi(appendToEnd: _currentCalcDisplayAppendToEnd);
+                      }),
                       Expanded(
                         flex: 1,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            calculatorButton("D10", 1, () {
-                              onPressedButton(10, preferences);
-                            }),
-                            calculatorButton("D12", 1, () {
-                              onPressedButton(12, preferences);
-                            }),
-                            calculatorButton("D20", 1, () {
-                              onPressedButton(20, preferences);
-                            }),
-                            calculatorButton("+", 1, () {
-                              onPressedButton("+", preferences);
-                            }),
-                          ],
+                        child: Container(
+                          constraints: BoxConstraints.expand(),
+                          alignment: Alignment(0.0, 0.0),
+                          padding: EdgeInsets.only(left: 4.0, right: 4.0, top: 1.0, bottom: 1.0),
+                          child: AutoSizeText(
+                            _currentModifierDisplay,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 24.0),
+                            maxLines: 1,
+                          ),
                         ),
                       ),
-                      Expanded(
-                        flex: 1,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            calculatorButton("D100", 1, () {
-                              onPressedButton(100, preferences);
-                            }),
-                            Expanded(
-                              flex: 2,
-                              child: Container (
-                                child: Center(child: Text("", style: _calculatorTextStyle)),
-                              ),
-                            ),
-                            calculatorButton("roll", 1, () {
-                              onPressedButton("=", preferences);
-                            })
-                          ],
-                        ),
-                      ),
+                      calculatorButton("-", 1, () {
+                        _decrementModifier();
+                        updateUi(appendToEnd: _currentCalcDisplayAppendToEnd);
+                      }),
                     ],
                   ),
                 ),
-              )
-            ],
+                Expanded(
+                  flex: 4,
+                  child: Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Expanded(
+                          flex: 1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              calculatorButton("D4", 1, () {
+                                onPressedButton(4, preferences);
+                              }),
+                              calculatorButton("D6", 1, () {
+                                onPressedButton(6, preferences);
+                              }),
+                              calculatorButton("D8", 1, () {
+                                onPressedButton(8, preferences);
+                              }),
+                              Expanded(
+                                flex: 1,
+                                child: FlatButton(
+                                  color: preferences.primaryColor,
+                                  onPressed: () {
+                                    onPressedButton("-", preferences);
+                                  },
+                                  child: Center(child: Icon(Icons.backspace)),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              calculatorButton("D10", 1, () {
+                                onPressedButton(10, preferences);
+                              }),
+                              calculatorButton("D12", 1, () {
+                                onPressedButton(12, preferences);
+                              }),
+                              calculatorButton("D20", 1, () {
+                                onPressedButton(20, preferences);
+                              }),
+                              calculatorButton("+", 1, () {
+                                onPressedButton("+", preferences);
+                              }),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              calculatorButton("D100", 1, () {
+                                onPressedButton(100, preferences);
+                              }),
+                              Expanded(
+                                flex: 2,
+                                child: Container (
+                                  color: preferences.primaryColor.withOpacity(0.9),
+                                  child: Center(child: Text("", style: _calculatorTextStyle)),
+                                ),
+                              ),
+                              calculatorButton("roll", 1, () {
+                                onPressedButton("=", preferences);
+                              })
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            )
           )
-        )
-      ],
+        ],
+      ),
     )
     );
   }

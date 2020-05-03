@@ -19,8 +19,10 @@ class PreferencesState with ChangeNotifier {
   Color _resultDetailsTextColor;
 
   ///
-  PreferencesState() {
-    init();
+  static PreferencesState _instance = PreferencesState._internal();
+  PreferencesState._internal();
+  factory PreferencesState() {
+    return _instance;
   }
 
   ///
