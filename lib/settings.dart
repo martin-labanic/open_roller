@@ -1,17 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
-import 'package:open_roller/preferences_state.dart';
-import 'package:provider/provider.dart';
+import "package:flutter/material.dart";
+import "package:flutter_material_color_picker/flutter_material_color_picker.dart";
+import "package:open_roller/preferences_state.dart";
+import "package:provider/provider.dart";
 
 class SettingsRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final preferences = Provider.of<PreferencesState>(context);
     return Scaffold(
-        appBar: AppBar( // TODO Keep this or remove it once you implement user preferences.
+        appBar: AppBar(
           // Here we take the value from the MyHomePage object that was created by
           // the App.build method, and use it to set our appbar title.
-        title: Text("Settings"),
+          title: Text("Settings"),
 //          backgroundColor: Colors.transparent,
         ),
         body: Container(
@@ -250,12 +250,8 @@ class SettingsRoute extends StatelessWidget {
           return AlertDialog(
             content: MaterialColorPicker(
               selectedColor: selectedColor,
-                      onColorChange: (color) {
-                        c = color;
-                      },
-              //        onMainColorChange: (color) => setState(() => _tempMainColor = color),
-              onBack: () {
-
+              onColorChange: (color) {
+                c = color;
               },
             ),
             actions: [

@@ -8,6 +8,7 @@ const String USER_PREF_RESET_NUMBER_OF_DICE_AFTER_ROLL = "reset_number_of_dice_a
 const String USER_PREF_RESET_MODIFIER_AFTER_ADD = "reset_modifier_after_add";
 const String USER_PREF_RESET_NUMBER_OF_DICE_AFTER_ADD = "reset_number_of_dice_after_add";
 const String USER_PREF_LANDSCAPE_CALC_ON_RIGHT = "landscape_calc_on_right";
+
 const String USER_PREF_PRIMARY_COLOR = "primary_colour";
 const String USER_PREF_PRIMARY_COLOR_DEFAULT = "0xFFEEEEEE";
 const String USER_PREF_SECONDARY_COLOR = "secondary_colour";
