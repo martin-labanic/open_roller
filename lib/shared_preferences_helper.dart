@@ -139,11 +139,10 @@ class SharedPreferencesHelper {
         await prefs.setString(colourName, defaultColor);
       }
     } catch (e, s) {
-print(e.toString() + s.toString());
+      print(e.toString() + s.toString()); // TODO Make this use crashlytics.
       result = Color(int.parse(defaultColor));
       await prefs.setString(colourName, defaultColor);
     }
-
 
     return result;
   }

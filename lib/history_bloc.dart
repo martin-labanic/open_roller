@@ -27,11 +27,11 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
   @override
   Stream<HistoryState> mapEventToState(HistoryEvent event) async* {
     if (event is HELoad) {
-      yield HSLoaded(rollHistory: _formattedHistory);
+      yield HSLoaded(fullRollHistory: _formattedHistory);
     } else if (event is HENewRollResult) {
       _history.insert(0, event.result);
       _formattedHistory.insert(0, _formatRoll(event.result));
-      yield HSNewRoll();
+      yield HSNewRoll(roll: _formattedHistory.first);
     } else {
       print("history_bloc: mapEventToState: Unhandled event: ${event.toString()}");
     }

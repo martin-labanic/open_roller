@@ -38,15 +38,25 @@ abstract class HistoryState extends Equatable {
 
 class HSUninitialized extends HistoryState {}
 
-class HSNewRoll extends HistoryState {}
 
 class HSLoaded extends HistoryState {
-  final List<HistoryEntry> rollHistory;
+  final List<HistoryEntry> fullRollHistory;
 
   const HSLoaded({
-    this.rollHistory
+    this.fullRollHistory,
   });
 
   @override
-  List<Object> get props => [rollHistory];
+  List<Object> get props => [fullRollHistory];
+}
+
+class HSNewRoll extends HistoryState {
+  final HistoryEntry roll;
+
+  const HSNewRoll({
+    this.roll,
+  });
+
+  @override
+  List<Object> get props => [roll];
 }

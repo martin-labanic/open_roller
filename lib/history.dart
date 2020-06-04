@@ -6,14 +6,23 @@ import "package:open_roller/history_events_and_states.dart";
 
 enum UiOrientation {Left, Top, Right, Bottom}
 
-class History extends StatelessWidget {
-//  @override
-//  State<StatefulWidget> createState() => _HistoryState();
-//}
-//
-//class _HistoryState extends State<History> {
+class History extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _HistoryState();
+}
+
+class _HistoryState extends State<History> {
   double HISTORY_FONT_SIZE_DEFAULT = 14;
   double HISTORY_FONT_SIZE_FIRST_ROW = 30;
+  var _rollResults = List<HistoryEntry>();
+
+  void setRollHistory(List<HistoryEntry> results) {
+    _rollResults = results;
+  }
+
+  void updateRollHistory(HistoryEntry result) {
+    _rollResults.insert(0, result);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +35,13 @@ class History extends StatelessWidget {
             child: CircularProgressIndicator()
           );
         } else if (state is HSLoaded) {
-          Widget result = _buildHistory(state);
+//          setRollHistory(state.fullRollHistory); // TODO This is strange; having this enabled will add values twice, despite the updateRollHistory function only being called in one spot and the new roll state only being yeilded from one spot.
+          Widget result = _buildHistory();
           return result;
         } else if (state is HSNewRoll) {
-          dashboard_bloc.add(HELoad());
-          return Center(
-              child: CircularProgressIndicator()
-          );
+          updateRollHistory(state.roll);
+          Widget result = _buildHistory();
+          return result;
         } else {
           return Center(
             child: Text("TODO State `$state` not handled"),
@@ -43,13 +52,12 @@ class History extends StatelessWidget {
   }
 
   ///
-  Widget _buildHistory(HSLoaded state) {
+  Widget _buildHistory() {
     return ListView.builder(
       reverse: true,
-      itemCount: state.rollHistory.length,// _rollResults.length, //
+      itemCount: _rollResults.length,
       itemBuilder: (context, i) {
-        return _buildRow(state.rollHistory[i], i == 0 ? HISTORY_FONT_SIZE_FIRST_ROW : HISTORY_FONT_SIZE_DEFAULT);
-//        return _buildRow(_rollResults[i], i == 0 ? HISTORY_FONT_SIZE_FIRST_ROW : HISTORY_FONT_SIZE_DEFAULT);
+        return _buildRow(_rollResults[i], i == 0 ? HISTORY_FONT_SIZE_FIRST_ROW : HISTORY_FONT_SIZE_DEFAULT);
       },
     );
   }
