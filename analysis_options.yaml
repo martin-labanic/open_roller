@@ -1,0 +1,13 @@
+include: package:pedantic/analysis_options.yaml
+
+linter:
+  rules:
+    prefer_double_quotes: true # Prefer double quotes as json does not accept single quotes, and we'll likely need to interact with it at this level.
+    unnecessary_new: true
+    unawaited_futures: true # Makes the compiler complain if we have a future value that doesn't use `await some_future` or `unawaited(some_future)`
+    lines_longer_than_80_chars: false
+    prefer_typing_uninitialized_variables: true
+
+analyzer:
+  strong-mode:
+    implicit-casts: false
