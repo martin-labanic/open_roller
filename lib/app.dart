@@ -8,7 +8,7 @@ import "package:open_roller/preferences_state.dart";
 import "package:open_roller/settings.dart";
 import "package:open_roller/ui_components/calculator_bloc.dart";
 import "package:open_roller/ui_components/dnd_calculator.dart";
-import "package:dynamic_theme/dynamic_theme.dart";
+import "package:persist_theme/data/models/theme_model.dart";
 //import "package:firebase_crashlytics/firebase_crashlytics.dart";
 import "package:provider/provider.dart";
 
@@ -16,29 +16,38 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 //  FlutterError.onError = Crashlytics.instance.recordFlutterError;
   await PreferencesState().init();
-  // TODO Custom theme fix.
   runApp(MyApp());
 }
+
+final _model = ThemeModel();
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider (
-      create: (context) => PreferencesState(),
-      child: MultiBlocProvider(
-          providers: [
-            BlocProvider(
-              create: (context) => CalculatorBloc(),
-            ),
-            BlocProvider(
-              create: (context) => HistoryBloc(BlocProvider.of<CalculatorBloc>(context)),
-            ),
-          ],
-          child: MaterialApp(
-              home: OpenRoller()
-          )
-      )
+    return ListenableProvider<ThemeModel>(
+      create: (_) => _model..init(),
+      child: Consumer<ThemeModel>(
+        builder: (context, model, child){
+          return ChangeNotifierProvider (
+              create: (context) => PreferencesState(),
+              child: MultiBlocProvider(
+                  providers: [
+                    BlocProvider(
+                      create: (context) => CalculatorBloc(),
+                    ),
+                    BlocProvider(
+                      create: (context) => HistoryBloc(BlocProvider.of<CalculatorBloc>(context)),
+                    ),
+                  ],
+                  child: MaterialApp(
+                      theme: model.theme,
+                      home: OpenRoller()
+                  )
+              )
+          );
+        },
+      ),
     );
   }
 }
@@ -57,10 +66,12 @@ class _OpenRollerState extends State<OpenRoller> {
 //  PreferencesState preferences;
   @override
   Widget build(BuildContext context) {
+    final _theme = Provider.of<ThemeModel>(context);
     SystemChrome.setEnabledSystemUIOverlays ([SystemUiOverlay.bottom]); // Disable the status bar.
 //    preferences = Provider.of<PreferencesState>(context);
 
     return Scaffold(
+      backgroundColor: _theme.backgroundColor,
       body: OrientationBuilder (
         builder: (context, orientation) {
           return _buildBody(orientation);//, preferences

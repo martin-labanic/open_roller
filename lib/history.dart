@@ -3,6 +3,8 @@ import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:open_roller/history_bloc.dart";
 import "package:open_roller/history_events_and_states.dart";
+import 'package:persist_theme/data/models/theme_model.dart';
+import 'package:provider/provider.dart';
 
 enum UiOrientation {Left, Top, Right, Bottom}
 
@@ -15,17 +17,15 @@ class _HistoryState extends State<History> {
   double HISTORY_FONT_SIZE_DEFAULT = 14;
   double HISTORY_FONT_SIZE_FIRST_ROW = 30;
   var _rollResults = List<HistoryEntry>();
+  ThemeModel _theme;
 
-  void setRollHistory(List<HistoryEntry> results) {
-    _rollResults = results;
-  }
-
-  void updateRollHistory(HistoryEntry result) {
-    _rollResults.insert(0, result);
+  void updateRollHistory(List<HistoryEntry> rolls) {
+    _rollResults = rolls;
   }
 
   @override
   Widget build(BuildContext context) {
+    _theme = Provider.of<ThemeModel>(context);
     final dashboard_bloc = BlocProvider.of<HistoryBloc>(context);
     return BlocBuilder<HistoryBloc, HistoryState>(
       builder: (context, state) {
@@ -35,11 +35,11 @@ class _HistoryState extends State<History> {
             child: CircularProgressIndicator()
           );
         } else if (state is HSLoaded) {
-//          setRollHistory(state.fullRollHistory); // TODO This is strange; having this enabled will add values twice, despite the updateRollHistory function only being called in one spot and the new roll state only being yeilded from one spot.
+          updateRollHistory(state.fullRollHistory);
           Widget result = _buildHistory();
           return result;
-        } else if (state is HSNewRoll) {
-          updateRollHistory(state.roll);
+        } else if (state is HSHistoryUpdated) {
+          dashboard_bloc.add(HELoad());
           Widget result = _buildHistory();
           return result;
         } else {
@@ -65,7 +65,6 @@ class _HistoryState extends State<History> {
   ///
   Widget _buildRow(HistoryEntry roll, double fontSize) {
     return Container(
-        color: Colors.white70,
         child:
         ListTile(
             dense: true,
@@ -80,7 +79,7 @@ class _HistoryState extends State<History> {
                     child: Text(
                       roll.diceRolled,
                       textAlign: TextAlign.start,
-                      style: TextStyle(fontSize: fontSize),
+                      style: TextStyle(fontSize: fontSize, color: _theme.textColor),
                     ),
                   ),
                   _buildRollDetails(roll, fontSize)
@@ -98,17 +97,17 @@ class _HistoryState extends State<History> {
       result = RichText(
         text: TextSpan(
           // Note: Styles for TextSpans must be explicitly defined, child text spans will inherit styles from parents
-          style: TextStyle(color: ThemeData.dark().secondaryHeaderColor, fontSize: fontSize),
+          style: TextStyle(color: _theme.theme.accentColor, fontSize: fontSize),
           children: <TextSpan>[
             TextSpan(text: "${roll.rollResult}\n",),
-            TextSpan(text: roll.rollResultDetails, style: TextStyle(color: ThemeData.dark().secondaryHeaderColor),),
+            TextSpan(text: roll.rollResultDetails, style: TextStyle(color: _theme.theme.hintColor),),
           ],
         ),
       );
     } else {
       result = Text(roll.rollResult,
         textAlign: TextAlign.start,
-        style: TextStyle(color: ThemeData.dark().secondaryHeaderColor, fontSize: fontSize),
+        style: TextStyle(color: _theme.theme.accentColor, fontSize: fontSize),
       );
     }
 

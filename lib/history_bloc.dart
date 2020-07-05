@@ -31,7 +31,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     } else if (event is HENewRollResult) {
       _history.insert(0, event.result);
       _formattedHistory.insert(0, _formatRoll(event.result));
-      yield HSNewRoll(roll: _formattedHistory.first);
+      yield HSHistoryUpdated();
     } else {
       print("history_bloc: mapEventToState: Unhandled event: ${event.toString()}");
     }

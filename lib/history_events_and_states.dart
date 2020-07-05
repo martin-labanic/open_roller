@@ -50,13 +50,4 @@ class HSLoaded extends HistoryState {
   List<Object> get props => [fullRollHistory];
 }
 
-class HSNewRoll extends HistoryState {
-  final HistoryEntry roll;
-
-  const HSNewRoll({
-    this.roll,
-  });
-
-  @override
-  List<Object> get props => [roll];
-}
+class HSHistoryUpdated extends HistoryState {}

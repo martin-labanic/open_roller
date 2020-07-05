@@ -6,6 +6,7 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:open_roller/preferences_state.dart";
 import "package:open_roller/ui_components/calculator_bloc.dart";
 import "package:open_roller/ui_components/calculator_events_and_states.dart";
+import 'package:persist_theme/data/models/theme_model.dart';
 import "package:provider/provider.dart";
 
 //class DndCalculator extends StatefulWidget {
@@ -19,11 +20,12 @@ import "package:provider/provider.dart";
 //}
 
 class DndCalculator extends StatelessWidget {
-  final _calculatorTextStyle = TextStyle(fontSize: 18);
 
   @override
   Widget build(BuildContext context) {
     final CalculatorBloc _calculatorBloc = BlocProvider.of<CalculatorBloc>(context);
+    final _theme = Provider.of<ThemeModel>(context);
+    TextStyle textStyle = TextStyle(fontSize: 18, color: _theme.textColor);
 
     return BlocBuilder<CalculatorBloc, CalculatorState>(
         builder: (context, state) {
@@ -34,20 +36,20 @@ class DndCalculator extends StatelessWidget {
             );
           } else if (state is CSLoaded) {
             return Container(
-              color: Theme.of(context).primaryColor,
+              color: _theme.theme.focusColor,
               child: Column(
                 children: <Widget>[
                   Expanded(
                       flex: 1,
                       child: Container(
-                        color: Theme.of(context).primaryColor,
+                        color: _theme.theme.focusColor.withAlpha(15),
                         constraints: BoxConstraints.expand(),
                         alignment: Alignment(1.0, 0.0),
                         padding: EdgeInsets.only(left: 4.0, right: 4.0, top: 1.0, bottom: 1.0),
                         child: AutoSizeText(
                           state.uiData[UI_DATA_CALCULATOR_DISPLAY].toString(),
                           textAlign: TextAlign.end,
-                          style: TextStyle(fontSize: 32.0),
+                          style: TextStyle(fontSize: 34.0, color: _theme.textColor),
                           maxLines: 1,
                         ),
                       )
@@ -61,7 +63,7 @@ class DndCalculator extends StatelessWidget {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
-                                calculatorButton("+", 1, () {
+                                calculatorButton("+", 1, textStyle, () {
                                   _calculatorBloc.add(CEButtonPressed(value: "+n"));
                                 }),
                                 Expanded(
@@ -73,15 +75,15 @@ class DndCalculator extends StatelessWidget {
                                     child: AutoSizeText(
                                       state.uiData[UI_DATA_NUMBER_OF_DICE].toString(),
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 24.0),
+                                      style: TextStyle(fontSize: 24.0, color: _theme.textColor),
                                       maxLines: 1,
                                     ),
                                   ),
                                 ),
-                                calculatorButton("-", 1, () {
+                                calculatorButton("-", 1, textStyle, () {
                                   _calculatorBloc.add(CEButtonPressed(value: "-n"));
                                 }),
-                                calculatorButton("+", 1, () {
+                                calculatorButton("+", 1, textStyle, () {
                                   _calculatorBloc.add(CEButtonPressed(value: "+m"));
                                 }),
                                 Expanded(
@@ -93,12 +95,12 @@ class DndCalculator extends StatelessWidget {
                                     child: AutoSizeText(
                                       state.uiData[UI_DATA_MODIFIER].toString(),
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 24.0),
+                                      style: TextStyle(fontSize: 24.0, color: _theme.textColor),
                                       maxLines: 1,
                                     ),
                                   ),
                                 ),
-                                calculatorButton("-", 1, () {
+                                calculatorButton("-", 1, textStyle, () {
                                   _calculatorBloc.add(CEButtonPressed(value: "-m"));
                                 }),
                               ],
@@ -118,23 +120,22 @@ class DndCalculator extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       crossAxisAlignment: CrossAxisAlignment.stretch,
                                       children: <Widget>[
-                                        calculatorButton("D4", 1, () {
+                                        calculatorButton("D4", 1, textStyle, () {
                                           _calculatorBloc.add(CEButtonPressed(value: 4));
                                         }),
-                                        calculatorButton("D6", 1, () {
+                                        calculatorButton("D6", 1, textStyle, () {
                                           _calculatorBloc.add(CEButtonPressed(value: 6));
                                         }),
-                                        calculatorButton("D8", 1, () {
+                                        calculatorButton("D8", 1, textStyle, () {
                                           _calculatorBloc.add(CEButtonPressed(value: 8));
                                         }),
                                         Expanded(
                                           flex: 1,
                                           child: FlatButton(
-                                            color: Theme.of(context).primaryColor,
                                             onPressed: () {
                                               _calculatorBloc.add(CEButtonPressed(value: "-"));
                                             },
-                                            child: Center(child: Icon(Icons.backspace)),
+                                            child: Center(child: Icon(Icons.backspace, color: _theme.textColor)),
                                           ),
                                         ),
                                       ],
@@ -146,18 +147,24 @@ class DndCalculator extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       crossAxisAlignment: CrossAxisAlignment.stretch,
                                       children: <Widget>[
-                                        calculatorButton("D10", 1, () {
+                                        calculatorButton("D10", 1, textStyle, () {
                                           _calculatorBloc.add(CEButtonPressed(value: 10));
                                         }),
-                                        calculatorButton("D12", 1, () {
+                                        calculatorButton("D12", 1, textStyle, () {
                                           _calculatorBloc.add(CEButtonPressed(value: 12));
                                         }),
-                                        calculatorButton("D20", 1, () {
+                                        calculatorButton("D20", 1, textStyle, () {
                                           _calculatorBloc.add(CEButtonPressed(value: 20));
                                         }),
-                                        calculatorButton("+", 1, () {
-                                          _calculatorBloc.add(CEButtonPressed(value: "+"));
-                                        }),
+                                        Expanded(
+                                          flex: 1,
+                                          child: FlatButton(
+                                            onPressed: () {
+                                              _calculatorBloc.add(CEButtonPressed(value: "+"));
+                                            },
+                                            child: Center(child: Icon(Icons.add_circle_outline, color: _theme.textColor)),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -167,17 +174,17 @@ class DndCalculator extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       crossAxisAlignment: CrossAxisAlignment.stretch,
                                       children: <Widget>[
-                                        calculatorButton("D100", 1, () {
+                                        calculatorButton("D100", 1, textStyle, () {
                                           _calculatorBloc.add(CEButtonPressed(value: 100));
                                         }),
                                         Expanded(
                                           flex: 2,
                                           child: Container (
 //                                            color: preferences.primaryColor.withOpacity(0.9),
-                                            child: Center(child: Text("", style: _calculatorTextStyle)),
+                                            child: Center(child: Text("", style: textStyle)),
                                           ),
                                         ),
-                                        calculatorButton("roll", 1, () {
+                                        calculatorButton("roll", 1, textStyle, () {
                                           _calculatorBloc.add(CEButtonPressed(value: "="));
                                         })
                                       ],
@@ -201,11 +208,11 @@ class DndCalculator extends StatelessWidget {
         });
   }
 
-  Widget calculatorButton(String text, int flex, VoidCallback onPressed) {
+  Widget calculatorButton(String text, int flex, TextStyle textStyle, VoidCallback onPressed) {
     return Expanded(
       flex: flex,
       child: FlatButton(
-        child: Center(child: Text(text, style: _calculatorTextStyle)),
+        child: Center(child: Text(text, style: textStyle)),
         onPressed: onPressed,
       ),
     );
