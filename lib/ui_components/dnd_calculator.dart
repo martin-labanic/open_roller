@@ -162,7 +162,7 @@ class DndCalculator extends StatelessWidget {
                                             onPressed: () {
                                               _calculatorBloc.add(CEButtonPressed(value: "+"));
                                             },
-                                            child: Center(child: Icon(Icons.add_circle_outline, color: _theme.textColor)),
+                                            child: Center(child: Icon(Icons.add_circle, color: _theme.textColor)),
                                           ),
                                         ),
                                       ],
