@@ -7,6 +7,7 @@ import "package:open_roller/history_bloc.dart";
 import "package:open_roller/preferences_state.dart";
 import "package:open_roller/settings.dart";
 import "package:open_roller/ui_components/calculator_bloc.dart";
+import 'package:open_roller/ui_components/calculator_events_and_states.dart';
 import "package:open_roller/ui_components/dnd_calculator.dart";
 import "package:persist_theme/data/models/theme_model.dart";
 //import "package:firebase_crashlytics/firebase_crashlytics.dart";
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
               child: MultiBlocProvider(
                   providers: [
                     BlocProvider(
-                      create: (context) => CalculatorBloc(),
+                      create: (context) => CalculatorBloc(CSUninitialized()),
                     ),
                     BlocProvider(
                       create: (context) => HistoryBloc(BlocProvider.of<CalculatorBloc>(context)),

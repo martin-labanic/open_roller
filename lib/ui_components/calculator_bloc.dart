@@ -12,6 +12,8 @@ const String UI_DATA_MODIFIER = "modifier";
 class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
   PreferencesState preferences = PreferencesState();
 
+  CalculatorBloc(CalculatorState initialState) : super(initialState);
+
   @override
   CalculatorState get initialState => CSUninitialized();
 

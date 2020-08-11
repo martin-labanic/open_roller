@@ -12,10 +12,10 @@ dependencies:
   dice_tower: 0.6.5
   flutter_launcher_icons: 0.7.5
   auto_size_text: 2.1.0
-  shared_preferences: 0.5.7+3
-  provider: 4.1.3
-  flutter_bloc: 4.0.1
-  equatable: 1.2.0
+  shared_preferences: 0.5.8
+  provider: 4.3.2
+  flutter_bloc: 6.0.1
+  equatable: 1.2.3
   persist_theme: 1.7.0
 #  flutter_material_color_picker: 1.0.5
 

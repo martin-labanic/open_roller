@@ -13,7 +13,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
   CalculatorBloc _calculatorBloc;
   StreamSubscription _calculatorSubscription;
 
-  HistoryBloc(this._calculatorBloc) {
+  HistoryBloc(this._calculatorBloc) : super(HSUninitialized()) {
     _calculatorBloc?.listen((state) {
       if (state is CSNewRoll) {
         add(HENewRollResult(state.value));
