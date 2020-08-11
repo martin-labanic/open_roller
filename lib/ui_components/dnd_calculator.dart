@@ -63,9 +63,17 @@ class DndCalculator extends StatelessWidget {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
-                                calculatorButton("+", 1, textStyle, () {
-                                  _calculatorBloc.add(CEButtonPressed(value: "+n"));
-                                }),
+                                Expanded(
+                                  flex:1,
+                                  child: FlatButton(
+                                    onPressed: () {
+                                      _calculatorBloc.add(CEButtonPressed(value: "+n"));
+                                    },
+                                    child: Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: Icon(Icons.keyboard_arrow_up, color: _theme.textColor)),
+                                  ),
+                                ),
                                 Expanded(
                                   flex: 1,
                                   child: Container(
@@ -80,12 +88,30 @@ class DndCalculator extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                calculatorButton("-", 1, textStyle, () {
-                                  _calculatorBloc.add(CEButtonPressed(value: "-n"));
-                                }),
-                                calculatorButton("+", 1, textStyle, () {
-                                  _calculatorBloc.add(CEButtonPressed(value: "+m"));
-                                }),
+                                Expanded(
+                                  flex: 1,
+                                  child: FlatButton(
+                                    onPressed: () {
+                                      _calculatorBloc.add(CEButtonPressed(value: "-n"));
+                                    },
+                                    child: Align(
+                                      alignment: Alignment.topCenter,
+                                      child: Icon(Icons.keyboard_arrow_down, color: _theme.textColor)
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: FlatButton(
+                                    onPressed: () {
+                                      _calculatorBloc.add(CEButtonPressed(value: "+m"));
+                                    },
+                                    child: Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: Icon(Icons.keyboard_arrow_up, color: _theme.textColor)
+                                    ),
+                                  ),
+                                ),
                                 Expanded(
                                   flex: 1,
                                   child: Container(
@@ -100,9 +126,18 @@ class DndCalculator extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                calculatorButton("-", 1, textStyle, () {
-                                  _calculatorBloc.add(CEButtonPressed(value: "-m"));
-                                }),
+                                Expanded(
+                                  flex: 1,
+                                  child: FlatButton(
+                                    onPressed: () {
+                                      _calculatorBloc.add(CEButtonPressed(value: "-m"));
+                                    },
+                                    child: Align(
+                                      alignment: Alignment.topCenter,
+                                      child: Icon(Icons.keyboard_arrow_down, color: _theme.textColor)
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
