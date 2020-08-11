@@ -71,7 +71,7 @@ class DndCalculator extends StatelessWidget {
                                     },
                                     child: Align(
                                       alignment: Alignment.bottomCenter,
-                                      child: Icon(Icons.keyboard_arrow_up, color: _theme.textColor)),
+                                      child: Icon(Icons.arrow_drop_up, color: _theme.textColor)),
                                   ),
                                 ),
                                 Expanded(
@@ -96,7 +96,7 @@ class DndCalculator extends StatelessWidget {
                                     },
                                     child: Align(
                                       alignment: Alignment.topCenter,
-                                      child: Icon(Icons.keyboard_arrow_down, color: _theme.textColor)
+                                      child: Icon(Icons.arrow_drop_down, color: _theme.textColor)
                                     ),
                                   ),
                                 ),
@@ -108,7 +108,7 @@ class DndCalculator extends StatelessWidget {
                                     },
                                     child: Align(
                                       alignment: Alignment.bottomCenter,
-                                      child: Icon(Icons.keyboard_arrow_up, color: _theme.textColor)
+                                      child: Icon(Icons.arrow_drop_up, color: _theme.textColor)
                                     ),
                                   ),
                                 ),
@@ -134,7 +134,7 @@ class DndCalculator extends StatelessWidget {
                                     },
                                     child: Align(
                                       alignment: Alignment.topCenter,
-                                      child: Icon(Icons.keyboard_arrow_down, color: _theme.textColor)
+                                      child: Icon(Icons.arrow_drop_down, color: _theme.textColor)
                                     ),
                                   ),
                                 ),
