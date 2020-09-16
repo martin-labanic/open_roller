@@ -39,6 +39,7 @@ class _HistoryState extends State<History> {
           Widget result = _buildHistory();
           return result;
         } else if (state is HSHistoryUpdated) {
+//          updateRollHistory(state.rolls);
           dashboard_bloc.add(HELoad());
           Widget result = _buildHistory();
           return result;

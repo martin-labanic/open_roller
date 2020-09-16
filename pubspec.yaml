@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  dice_tower: 0.6.5
+  dice_tower: 0.7.0
   flutter_launcher_icons: 0.7.5
   auto_size_text: 2.1.0
   shared_preferences: 0.5.8

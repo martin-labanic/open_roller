@@ -19,6 +19,9 @@ class SettingsRoute extends StatelessWidget {
           title: Text("Settings"),
         ),
         body: Container(
+
+//          width: MediaQuery.of(context).size.width,
+//          height: MediaQuery.of(context).size.height,
           padding: EdgeInsets.all(14),
           child: Column(
             children: <Widget>[

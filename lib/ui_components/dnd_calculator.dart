@@ -9,15 +9,6 @@ import "package:open_roller/ui_components/calculator_events_and_states.dart";
 import 'package:persist_theme/data/models/theme_model.dart';
 import "package:provider/provider.dart";
 
-//class DndCalculator extends StatefulWidget {
-//  DndCalculator(this.onRollPressed(RollResult result), {Key key, this.title}) : super(key: key);
-//
-//  final String title;
-//  final ValueSetter<RollResult> onRollPressed;
-//
-//  @override
-//  _DndCalculatorState createState() => _DndCalculatorState(this);
-//}
 
 class DndCalculator extends StatelessWidget {
 

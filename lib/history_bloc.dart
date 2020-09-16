@@ -42,9 +42,7 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
   HistoryEntry _formatRoll(RollResult r) {
     var result = HistoryEntry(r.title, Dnd5eRuleset.prettyPrintResult(r));
 
-    if (r.rolls.length > 1 || // Handles having more than one di type.
-        r.rolls[0].length > 1 || // Handles have more than one of the same di.
-        (r.rolls[0].length == 1 && r.dicePool[0].modifier != 0)) { // Handles a non-zero modifier.
+    if (r.rolls.length > 1) {// Handles having more than one di type.
       result.rollResultDetails = Dnd5eRuleset.prettyPrintResultDetails(r);
     }
 
